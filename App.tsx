@@ -4,6 +4,7 @@ import { store } from './src/store';
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { enableScreens } from 'react-native-screens';
+import { ThemeProvider } from './src/context/ThemeContext';
 import "./global.css";
 
 enableScreens();
@@ -11,9 +12,11 @@ enableScreens();
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <BottomTabNavigator />
-      </SafeAreaProvider>
+      <ThemeProvider>
+        <SafeAreaProvider>
+          <BottomTabNavigator />
+        </SafeAreaProvider>
+      </ThemeProvider>
     </Provider>
   );
 };

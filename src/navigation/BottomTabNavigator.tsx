@@ -8,10 +8,15 @@ import ProfileScreen from '../screens/Double/ProfileScreen';
 import SettingsScreen from '../screens/Choose/SettingsScreen';
 import HeaderRight from '../components/HeaderRight';
 import { APP_SCREEN_NAME } from '../constants/AppScreenName';
+import { useTheme } from '../context/ThemeContext';
+import { THEME_COLORS } from '../constants/ThemeColors';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const { theme } = useTheme();
+  const colors = THEME_COLORS[theme];
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -27,8 +32,11 @@ const BottomTabNavigator = () => {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: colors.activeIcon,
+        tabBarInactiveTintColor: colors.inactiveIcon,
+        tabBarStyle: { backgroundColor: colors.tabBarBg },
+        headerStyle: { backgroundColor: colors.headerBg },
+        headerTintColor: colors.activeIcon,
       })}
       >
         <Tab.Screen 
@@ -61,6 +69,9 @@ const BottomTabNavigator = () => {
 };
 
 export default BottomTabNavigator;
+
+
+
 
 
 
