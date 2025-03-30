@@ -3,7 +3,6 @@ module.exports = {
   plugins: [
     [
       'module-resolver',
-      'nativewind/babel',
       {
         root: ['.'],
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
@@ -21,4 +20,5 @@ module.exports = {
     ],
   ],
 };
+
 
