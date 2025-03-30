@@ -13,6 +13,7 @@ export interface TableColumn {
   width?: number | string;
   widthRem?: number;
   renderCell?: (value: any, rowData: any) => React.ReactNode;
+  headerTextColor?: string;
 }
 
 export interface TableData {
@@ -153,14 +154,14 @@ const TableList: React.FC<TableListProps> = ({
               disabled={!column.sortable}
             >
               <View style={styles.headerContent}>
-                <Typography variant="subtitle2" color={colors.light}>
+                <Typography variant="subtitle2" color={column.headerTextColor || colors.light}>
                   {column.label}
                 </Typography>
                 {column.sortable && (
                   <Icon
                     name={getSortIcon(column.id)}
                     size={16}
-                    color={colors.light}
+                    color={column.headerTextColor || colors.light}
                     style={styles.sortIcon}
                   />
                 )}
@@ -210,6 +211,7 @@ const styles = StyleSheet.create({
 });
 
 export default TableList;
+
 
 
 

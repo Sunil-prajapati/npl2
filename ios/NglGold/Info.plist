@@ -53,5 +53,10 @@
 		<string>Roboto-Italic-VariableFont_wdth,wght.ttf</string>
 		<string>Roboto-VariableFont_wdth,wght.ttf</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
+	</array>
 </dict>
 </plist>
+

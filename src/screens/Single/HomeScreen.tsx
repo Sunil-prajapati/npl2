@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { View, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Alert, TouchableOpacity, Linking } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
 import Calendar from '../../components/ui/Calendar';
@@ -8,7 +8,8 @@ import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import { DateData } from 'react-native-calendars';
 import Typography from '../../components/Typography';
-import { MESSAGES } from '../../constants/enum';
+import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
+import useApi from '../../hooks/useApi';
 
 // Sample data for the table
 const sampleTableData: TableData[] = [
@@ -24,10 +25,32 @@ const sampleTableData: TableData[] = [
 
 const HomeScreen = () => {
   const { theme } = useTheme();
+  // const { data, loading, error, getData } = useApi();
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   // Public API call (no authentication required)
+  //   getData('/public/products', null, false);
+  // }, [getData]);
   
-  // Example marked dates
+  const openWhatsApp = async (phoneNumber: string) => {
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
+    try {
+      const supported = await Linking.canOpenURL(whatsappUrl);
+      if (supported) {
+        await Linking.openURL(whatsappUrl);
+      } else {
+        Alert.alert(
+          "WhatsApp Not Installed",
+          "WhatsApp is not installed on your device"
+        );
+      }
+    } catch (error) {
+      console.error("Error opening WhatsApp:", error);
+    }
+  };
+  
   const markedDates = {
     ...(selectedDate ? { [selectedDate]: { selected: true } } : {}),
     '2024-06-15': { marked: true, dotColor: colors.dark },
@@ -43,19 +66,52 @@ const HomeScreen = () => {
   // Define table columns
   const tableColumns: TableColumn[] = [
     { id: 'time', label: 'Time', sortable: true, widthRem: 6 },
-    { id: 'a', label: 'A'},    
-    { id: 'b', label: 'B'},
-    { id: 'c', label: 'C'},
+    { 
+      id: 'a', 
+      label: 'A',
+      renderCell: (value) => (
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.A}>
+          {value}
+        </Typography>
+      ),
+      headerTextColor: TABLE_COLUMNS_COLOR.A
+    },    
+    { 
+      id: 'b', 
+      label: 'B',
+      renderCell: (value) => (
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.B}>
+          {value}
+        </Typography>
+      ),
+      headerTextColor: TABLE_COLUMNS_COLOR.B
+    },
+    { 
+      id: 'c', 
+      label: 'C',
+      renderCell: (value) => (
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.C}>
+          {value}
+        </Typography>
+      ),
+      headerTextColor: TABLE_COLUMNS_COLOR.C
+    },
   ];
 
   return (
     <ScreenWrapper>
       <View className="flex-1 items-center justify-start gap-6 p-4">
-        <Box bgColor={colors.dark}>
-          <Typography variant="h6" color={colors.text}>
-            {MESSAGES.WHATS_APP_TEXT}
-          </Typography>
-        </Box>
+        <TouchableOpacity 
+          onPress={() => openWhatsApp('918054116220')} 
+          activeOpacity={0.7}
+          style={{ width: '100%' }}
+        >
+          <Box bgColor={colors.dark}>
+            <Typography variant="h6" color={colors.text}>
+              {MESSAGES.WHATS_APP_TEXT}
+            </Typography>
+          </Box>
+        </TouchableOpacity>
         <Box 
           bgColor={colors.light}
           style={{ width: '100%' }}
@@ -86,9 +142,5 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
-
-
-
-
 
 
