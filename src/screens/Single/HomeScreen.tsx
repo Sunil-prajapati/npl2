@@ -8,7 +8,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import { DateData } from 'react-native-calendars';
 import Typography from '../../components/Typography';
-import { MESSAGES } from '../../constants/enum';
+import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 
 // Sample data for the table
 const sampleTableData: TableData[] = [
@@ -43,9 +43,36 @@ const HomeScreen = () => {
   // Define table columns
   const tableColumns: TableColumn[] = [
     { id: 'time', label: 'Time', sortable: true, widthRem: 6 },
-    { id: 'a', label: 'A'},    
-    { id: 'b', label: 'B'},
-    { id: 'c', label: 'C'},
+    { 
+      id: 'a', 
+      label: 'A',
+      renderCell: (value) => (
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.A}>
+          {value}
+        </Typography>
+      ),
+      headerTextColor: TABLE_COLUMNS_COLOR.A
+    },    
+    { 
+      id: 'b', 
+      label: 'B',
+      renderCell: (value) => (
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.B}>
+          {value}
+        </Typography>
+      ),
+      headerTextColor: TABLE_COLUMNS_COLOR.B
+    },
+    { 
+      id: 'c', 
+      label: 'C',
+      renderCell: (value) => (
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.C}>
+          {value}
+        </Typography>
+      ),
+      headerTextColor: TABLE_COLUMNS_COLOR.C
+    },
   ];
 
   return (
@@ -86,6 +113,9 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+
+
 
 
 
