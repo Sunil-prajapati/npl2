@@ -63,7 +63,7 @@ const HomeScreen = () => {
     console.log('Selected day:', day.dateString);
   };
 
-  // Define table columns
+
   const tableColumns: TableColumn[] = [
     { id: 'time', label: 'Time', sortable: true, widthRem: 6 },
     { 
