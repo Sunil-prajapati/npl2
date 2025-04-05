@@ -27,6 +27,7 @@ interface TableListProps {
   className?: string;
   onEndReached?: () => void;
   onEndReachedThreshold?: number;
+  height?: number; // Add height prop
 }
 
 type SortDirection = 'asc' | 'desc' | null;
@@ -37,6 +38,7 @@ const TableList: React.FC<TableListProps> = ({
   className = '',
   onEndReached,
   onEndReachedThreshold = 0.5,
+  height, // Destructure height prop
 }) => {
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
@@ -137,7 +139,7 @@ const TableList: React.FC<TableListProps> = ({
   return (
     <View 
       className={`rounded-lg overflow-hidden ${className}`} 
-      style={styles.container}
+      style={[styles.container, height ? { height } : {}]}
       onLayout={(event) => {
         const { width } = event.nativeEvent.layout;
         setContainerWidth(width);
@@ -175,6 +177,7 @@ const TableList: React.FC<TableListProps> = ({
           keyExtractor={(item) => item.id.toString()}
           onEndReached={onEndReached}
           onEndReachedThreshold={onEndReachedThreshold}
+          style={{ maxHeight: height ? height - 50 : undefined }} // Subtract header height
         />
       </View>
     </View>
@@ -211,6 +214,8 @@ const styles = StyleSheet.create({
 });
 
 export default TableList;
+
+
 
 
 

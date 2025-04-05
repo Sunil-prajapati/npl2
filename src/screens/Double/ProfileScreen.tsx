@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Alert, TouchableOpacity, Linking } from 'react-native';
+import { View, Alert, TouchableOpacity, Linking, Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
 import Calendar from '../../components/ui/Calendar';
@@ -11,7 +11,7 @@ import Typography from '../../components/Typography';
 import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 
-// Sample data for the table
+
 const sampleTableData: TableData[] = [
   { id: 1, time: '09:30 AM', a: 42, b: 78, c: 12 },
   { id: 2, time: '10:15 AM', a: 56, b: 34, c: 89 },
@@ -21,12 +21,22 @@ const sampleTableData: TableData[] = [
   { id: 6, time: '04:45 PM', a: 65, b: 29, c: 51 },
   { id: 7, time: '04:45 PM', a: 65, b: 29, c: 51 },
   { id: 8, time: '04:45 PM', a: 15, b: 29, c: 51 },
+  { id: 12, time: '09:30 AM', a: 42, b: 78, c: 12 },
+  { id: 22, time: '10:15 AM', a: 56, b: 34, c: 89 },
+  { id: 34, time: '11:45 AM', a: 91, b: 67, c: 45 },
+  { id: 47, time: '01:30 PM', a: 23, b: 88, c: 76 },
+  { id: 57, time: '03:00 PM', a: 77, b: 12, c: 39 },
+  { id: 62, time: '04:45 PM', a: 65, b: 29, c: 51 },
+  { id: 76, time: '04:45 PM', a: 65, b: 29, c: 51 },
+  { id: 83, time: '05:45 PM', a: 15, b: 29, c: 51 },
 ];
 
 const ProfileScreen = () => {
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const screenHeight = Dimensions.get('window').height;
+  const tableHeight = screenHeight * 0.6;
   
   const openWhatsApp = async (phoneNumber: string) => {
     const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
@@ -117,21 +127,16 @@ const ProfileScreen = () => {
             className="w-full"
           />
         </Box>
-        
-        <Box 
-          bgColor={colors.light}
-          style={{ width: '100%' }}
-          padding={8}
-        >
           <TableList
             columns={tableColumns}
             data={sampleTableData}
             className="w-full"
+            height={tableHeight}
           />
-        </Box>
       </View>
     </ScreenWrapper>
   );
 };
 
 export default ProfileScreen;
+
