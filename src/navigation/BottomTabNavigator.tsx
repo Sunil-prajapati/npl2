@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from '../screens/Single/HomeScreen';
@@ -18,8 +17,7 @@ const BottomTabNavigator = () => {
   const colors = THEME_COLORS[theme];
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
+    <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -38,37 +36,37 @@ const BottomTabNavigator = () => {
         headerStyle: { backgroundColor: colors.headerBg },
         headerTintColor: colors.activeIcon,
       })}
-      >
-        <Tab.Screen 
-          name={APP_SCREEN_NAME.SINGLE} 
-          component={HomeScreen} 
-          options={{ 
-            tabBarLabel: APP_SCREEN_NAME.SINGLE,
-            headerRight: () => <HeaderRight />,
-          }}
-        />
-        <Tab.Screen 
-          name={APP_SCREEN_NAME.DOUBLE}
-          component={ProfileScreen} 
-          options={{ 
-            tabBarLabel: APP_SCREEN_NAME.DOUBLE,
-            headerRight: () => <HeaderRight />,
-          }}
-        />
-        <Tab.Screen 
-          name={APP_SCREEN_NAME.CHOOSE} 
-          component={SettingsScreen} 
-          options={{ 
-            tabBarLabel: APP_SCREEN_NAME.CHOOSE,
-            headerRight: () => <HeaderRight />,
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    >
+      <Tab.Screen 
+        name={APP_SCREEN_NAME.SINGLE} 
+        component={HomeScreen} 
+        options={{ 
+          tabBarLabel: APP_SCREEN_NAME.SINGLE,
+          headerRight: () => <HeaderRight />,
+        }}
+      />
+      <Tab.Screen 
+        name={APP_SCREEN_NAME.DOUBLE}
+        component={ProfileScreen} 
+        options={{ 
+          tabBarLabel: APP_SCREEN_NAME.DOUBLE,
+          headerRight: () => <HeaderRight />,
+        }}
+      />
+      <Tab.Screen 
+        name={APP_SCREEN_NAME.CHOOSE} 
+        component={SettingsScreen} 
+        options={{ 
+          tabBarLabel: APP_SCREEN_NAME.CHOOSE,
+          headerRight: () => <HeaderRight />,
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 
 export default BottomTabNavigator;
+
 
 
 
