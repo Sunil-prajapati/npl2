@@ -1,22 +1,34 @@
 import React from 'react';
 import { Modal, TouchableOpacity, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useTheme } from '../context/ThemeContext';
 import { THEME_TYPE } from '../constants/ThemeTypes';
 import { THEME_COLORS } from '../constants/ThemeColors';
 import Typography from './Typography';
+import { RootStackParamList } from '../navigation/AppNavigator';
+import { APP_SCREEN_NAME } from '../constants/AppScreenName';
 
 interface OptionsProps {
   visible: boolean;
   onClose: () => void;
 }
 
+type NavigationProp = StackNavigationProp<RootStackParamList>;
+
 const Options: React.FC<OptionsProps> = ({ visible, onClose }) => {
   const { theme, toggleTheme } = useTheme();
   const colors = THEME_COLORS[theme];
+  const navigation = useNavigation<NavigationProp>();
 
   const handleThemeToggle = () => {
     toggleTheme();
+    onClose();
+  };
+  
+  const handlePrivacyPolicy = () => {
+    navigation.navigate(APP_SCREEN_NAME.PRIVACY_POLICY);
     onClose();
   };
 
@@ -51,7 +63,23 @@ const Options: React.FC<OptionsProps> = ({ visible, onClose }) => {
             </Typography>
           </TouchableOpacity>
           
-          {/* Add more options here as needed */}
+          <TouchableOpacity 
+            style={styles.optionItem}
+            onPress={handlePrivacyPolicy}
+          >
+            <Icon 
+              name="shield-checkmark-outline" 
+              size={24} 
+              color={colors.activeIcon} 
+            />
+            <Typography 
+              variant="body1" 
+              color={colors.text} 
+              style={styles.optionText}
+            >
+              {APP_SCREEN_NAME.PRIVACY_POLICY}
+            </Typography>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     </Modal>
