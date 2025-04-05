@@ -10,6 +10,7 @@ import { DateData } from 'react-native-calendars';
 import Typography from '../../components/Typography';
 import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
+import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 
 // Sample data for the table
 const sampleTableData: TableData[] = [
@@ -25,14 +26,13 @@ const sampleTableData: TableData[] = [
 
 const HomeScreen = () => {
   const { theme } = useTheme();
-  // const { data, loading, error, getData } = useApi();
+  // const { data, loading, error, sendData } = useApi();
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   // useEffect(() => {
-  //   // Public API call (no authentication required)
-  //   getData('/public/products', null, false);
-  // }, [getData]);
+  //   sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
+  // }, []);
   
   const openWhatsApp = async (phoneNumber: string) => {
     const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
@@ -142,5 +142,6 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
 
 

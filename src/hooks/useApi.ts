@@ -5,7 +5,7 @@ import { fetchData, postData, clearApiState } from '../store/slices/apiSlice';
 const useApi = () => {
   const dispatch = useAppDispatch();
   const { data, loading, error } = useAppSelector((state) => state.api);
-
+  console.log(data, "== data");
   // Get data from API
   const getData = useCallback((endpoint: string, params?: any, requiresAuth: boolean = true) => {
     return dispatch(fetchData({ endpoint, params, requiresAuth }));

@@ -3,4 +3,5 @@ export const APP_SCREEN_NAME = {
  DOUBLE: 'NGL Jodi',
  CHOOSE: 'Choose',
  PRIVACY_POLICY: 'Privacy Policy',
+ NO_NETWORK: 'No Network',
 };

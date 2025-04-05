@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './BottomTabNavigator';
 import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
+import NoNetworkScreen from '../screens/NoNetworkScreen';
 import { useTheme } from '../context/ThemeContext';
 import { THEME_COLORS } from '../constants/ThemeColors';
 import { APP_SCREEN_NAME } from '../constants/AppScreenName';
@@ -11,6 +12,7 @@ import { APP_SCREEN_NAME } from '../constants/AppScreenName';
 export type RootStackParamList = {
   Main: undefined;
   PrivacyPolicy: undefined;
+  NoNetwork: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -37,9 +39,15 @@ const AppNavigator = () => {
           component={PrivacyPolicyScreen} 
           options={{ title: APP_SCREEN_NAME.PRIVACY_POLICY }}
         />
+        <Stack.Screen 
+          name="NoNetwork"
+          component={NoNetworkScreen} 
+          options={{ title: "No Internet Connection" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default AppNavigator;
+
