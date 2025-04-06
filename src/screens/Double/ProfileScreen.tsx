@@ -10,7 +10,7 @@ import { DateData } from 'react-native-calendars';
 import Typography from '../../components/Typography';
 import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
-
+import { Marquee } from '@animatereactnative/marquee';
 
 const sampleTableData: TableData[] = [
   { id: 1, time: '09:30 AM', a: 42, b: 78, c: 12 },
@@ -68,12 +68,18 @@ const ProfileScreen = () => {
   };
 
   const tableColumns: TableColumn[] = [
-    { id: 'time', label: 'Time', sortable: true, widthRem: 6 },
+    { id: 'time', label: 'Time', sortable: true, widthRem: 6,
+      renderCell: (value) => (
+        <Typography variant="body2" color={colors.text} style={{ fontWeight: 'bold' }}>
+          {value}
+        </Typography>
+      ),
+    },
     { 
       id: 'a', 
       label: 'AA',
       renderCell: (value) => (
-        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.A}>
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.A} style={{ fontWeight: 'bold' }}>
           {value}
         </Typography>
       ),
@@ -83,7 +89,7 @@ const ProfileScreen = () => {
       id: 'b', 
       label: 'BB',
       renderCell: (value) => (
-        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.B}>
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.B} style={{ fontWeight: 'bold' }}>
           {value}
         </Typography>
       ),
@@ -93,7 +99,7 @@ const ProfileScreen = () => {
       id: 'c', 
       label: 'CC',
       renderCell: (value) => (
-        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.C}>
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.C} style={{ fontWeight: 'bold' }}>
           {value}
         </Typography>
       ),
@@ -103,30 +109,30 @@ const ProfileScreen = () => {
 
   return (
     <ScreenWrapper>
-      <View className="flex-1 items-center justify-start gap-6 p-4">
+      <View className="flex-1 items-center justify-start gap-2 p-4">
         <TouchableOpacity 
           onPress={() => openWhatsApp('918054116220')} 
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
-          <Box bgColor={colors.dark}>
-            <Typography variant="h6" color={colors.text}>
-              {MESSAGES.WHATS_APP_TEXT}
-            </Typography>
+          <Box
+            bgColor={colors.primary}
+            padding={0}
+            style={{ paddingVertical: 4, paddingHorizontal: 0 }}
+          >
+            <Marquee spacing={20} speed={1}>
+              <Typography variant="subtitle2" color={colors.text}>{MESSAGES.WHATS_APP_TEXT}</Typography>
+            </Marquee>
           </Box>
         </TouchableOpacity>
-        <Box 
-          bgColor={colors.light}
-          style={{ width: '100%' }}
-          padding={0}
-        >
+       
           <Calendar
             onDayPress={handleDayPress}
             markedDates={markedDates}
             initialDate={new Date().toISOString().split('T')[0]}
             className="w-full"
           />
-        </Box>
+      
           <TableList
             columns={tableColumns}
             data={sampleTableData}
@@ -139,4 +145,5 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
+
 

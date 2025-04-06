@@ -11,6 +11,7 @@ import Typography from '../../components/Typography';
 import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
+import { Marquee } from '@animatereactnative/marquee';
 
 
 const sampleTableData: TableData[] = [
@@ -53,7 +54,7 @@ const HomeScreen = () => {
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const screenHeight = Dimensions.get('window').height;
-  const tableHeight = screenHeight * 0.6;
+  const tableHeight = screenHeight * 0.7;
 
   // useEffect(() => {
   //   sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
@@ -90,12 +91,18 @@ const HomeScreen = () => {
 
 
   const tableColumns: TableColumn[] = [
-    { id: 'time', label: 'Time', sortable: true, widthRem: 6 },
+    { id: 'time', label: 'Time', sortable: true, widthRem: 6,
+      renderCell: (value) => (
+        <Typography variant="body2" color={colors.text} style={{ fontWeight: 'bold' }}>
+          {value}
+        </Typography>
+      ),
+    },
     {
       id: 'a',
       label: 'A',
       renderCell: (value) => (
-        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.A}>
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.A} style={{ fontWeight: 'bold' }}>
           {value}
         </Typography>
       ),
@@ -105,7 +112,7 @@ const HomeScreen = () => {
       id: 'b',
       label: 'B',
       renderCell: (value) => (
-        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.B}>
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.B} style={{ fontWeight: 'bold' }}>
           {value}
         </Typography>
       ),
@@ -115,7 +122,7 @@ const HomeScreen = () => {
       id: 'c',
       label: 'C',
       renderCell: (value) => (
-        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.C}>
+        <Typography variant="body2" color={TABLE_COLUMNS_COLOR.C} style={{ fontWeight: 'bold' }}>
           {value}
         </Typography>
       ),
@@ -125,31 +132,28 @@ const HomeScreen = () => {
 
   return (
     <ScreenWrapper>
-      <View className="flex-1 items-center justify-start gap-6 p-4">
+      <View className="flex-1 items-center justify-start gap-2 p-4">
         <TouchableOpacity
           onPress={() => openWhatsApp('918054116220')}
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
-          <Box bgColor={colors.dark}>
-            <Typography variant="h6" color={colors.text}>
-              {MESSAGES.WHATS_APP_TEXT}
-            </Typography>
+          <Box
+            bgColor={colors.primary}
+            padding={0}
+            style={{ paddingVertical: 4, paddingHorizontal: 0 }}
+          >
+            <Marquee spacing={20} speed={1}>
+              <Typography variant="subtitle2" color={colors.text}>{MESSAGES.WHATS_APP_TEXT}</Typography>
+            </Marquee>
           </Box>
         </TouchableOpacity>
-        <Box
-          bgColor={colors.light}
-          style={{ width: '100%' }}
-          padding={0}
-        >
-          <Calendar
-            onDayPress={handleDayPress}
-            markedDates={markedDates}
-            initialDate={new Date().toISOString().split('T')[0]}
-            className="w-full"
-          />
-        </Box>
-
+        <Calendar
+          onDayPress={handleDayPress}
+          markedDates={markedDates}
+          initialDate={new Date().toISOString().split('T')[0]}
+          className="w-full"
+        />
         <TableList
           columns={tableColumns}
           data={sampleTableData}
@@ -162,3 +166,6 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+
+

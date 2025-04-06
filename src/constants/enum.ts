@@ -1,5 +1,5 @@
 export const MESSAGES = {
-    WHATS_APP_TEXT:'AGAR APP GAME KEHLNA AGAR APP GAME KEHLNA AGAR APP GAME KEHLNA AGAR APP GAME KEHLNA'
+    WHATS_APP_TEXT:'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an '
 }
 
 export const TABLE_COLUMNS_COLOR = {

@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@animatereactnative/marquee": "^0.5.2",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-navigation/bottom-tabs": "^7.3.3",
     "@react-navigation/native": "^7.0.19",
