@@ -45,7 +45,7 @@ const sampleTableData: TableData[] = [
   { id: 28, time: '04:45 PM', a: 1, b: 2, c: 5 },
   { id: 29, time: '04:45 PM', a: 1, b: 2, c: 5 },
   { id: 30, time: '04:45 PM', a: 6, b: 2, c: 5 },
-  { id: 31, time: '04:50 PM', a: 1, b: 2, c: 5 },
+  { id: 31, time: '08:50 PM', a: 1, b: 2, c: 5 },
 ];
 
 const HomeScreen = () => {
@@ -54,7 +54,7 @@ const HomeScreen = () => {
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const screenHeight = Dimensions.get('window').height;
-  const tableHeight = screenHeight * 0.7;
+  const tableHeight = screenHeight * 0.67;
 
   // useEffect(() => {
   //   sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
@@ -86,12 +86,12 @@ const HomeScreen = () => {
 
   const handleDayPress = (day: DateData) => {
     setSelectedDate(day.dateString);
-    console.log('Selected day:', day.dateString);
   };
 
 
   const tableColumns: TableColumn[] = [
-    { id: 'time', label: 'Time', sortable: true, widthRem: 6,
+    {
+      id: 'time', label: 'Time', sortable: true, widthRem: 6,
       renderCell: (value) => (
         <Typography variant="body2" color={colors.text} style={{ fontWeight: 'bold' }}>
           {value}
@@ -132,7 +132,7 @@ const HomeScreen = () => {
 
   return (
     <ScreenWrapper>
-      <View className="flex-1 items-center justify-start gap-2 p-4">
+      <View className="flex-1 items-center justify-start gap-1 p-2">
         <TouchableOpacity
           onPress={() => openWhatsApp('918054116220')}
           activeOpacity={0.7}
@@ -145,6 +145,21 @@ const HomeScreen = () => {
           >
             <Marquee spacing={20} speed={1}>
               <Typography variant="subtitle2" color={colors.text}>{MESSAGES.WHATS_APP_TEXT}</Typography>
+            </Marquee>
+          </Box>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => openWhatsApp('918054116220')}
+          activeOpacity={0.7}
+          style={{ width: '100%' }}
+        >
+          <Box
+            bgColor={colors.primary}
+            padding={0}
+            style={{ paddingVertical: 4, paddingHorizontal: 0, marginTop: 10 }}
+          >
+            <Marquee spacing={20} speed={1}>
+              <Typography variant="subtitle2" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
             </Marquee>
           </Box>
         </TouchableOpacity>

@@ -25,9 +25,10 @@ const BottomTabNavigator = () => {
             iconName = focused ? 'checkmark-circle' : 'checkmark-circle-outline';
           } else if (route.name === APP_SCREEN_NAME.DOUBLE) {
             iconName = focused ? 'checkmark-done' : 'checkmark-done-outline';
-          } else if (route.name === APP_SCREEN_NAME.CHOOSE) {
-            iconName = focused ? 'options' : 'options-outline';
-          }
+          } 
+          // else if (route.name === APP_SCREEN_NAME.CHOOSE) {
+          //   iconName = focused ? 'options' : 'options-outline';
+          // }
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: colors.activeIcon,
@@ -53,14 +54,14 @@ const BottomTabNavigator = () => {
           headerRight: () => <HeaderRight />,
         }}
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name={APP_SCREEN_NAME.CHOOSE} 
         component={SettingsScreen} 
         options={{ 
           tabBarLabel: APP_SCREEN_NAME.CHOOSE,
           headerRight: () => <HeaderRight />,
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
