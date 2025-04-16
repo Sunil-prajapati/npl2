@@ -5,6 +5,8 @@ import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { remToPixels } from '../../utils/typography';
+import { MESSAGES } from '../../constants/enum';
+import Loader from './Loader';
 
 export interface TableColumn {
   id: string;
@@ -29,6 +31,7 @@ interface TableListProps {
   onEndReachedThreshold?: number;
   height?: number;
   title?: string;
+  loading?: boolean;
 }
 
 type SortDirection = 'asc' | 'desc' | null;
@@ -41,7 +44,9 @@ const TableList: React.FC<TableListProps> = ({
   onEndReachedThreshold = 0.5,
   height,
   title,
+  loading = false,
 }) => {
+
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
   const [containerWidth, setContainerWidth] = useState(Dimensions.get('window').width);
@@ -66,11 +71,15 @@ const TableList: React.FC<TableListProps> = ({
   };
 
   const sortedData = useMemo(() => {
+    const dataWithIds = Array.isArray(data) ? data.map((item, index) => {
+      return item.id ? item : { ...item, id: index.toString() };
+    }) : [];
+    
     if (!sortConfig.direction) {
-      return [...data];
+      return dataWithIds;
     }
 
-    return [...data].sort((a, b) => {
+    return dataWithIds.sort((a, b) => {
       if (a[sortConfig.key] < b[sortConfig.key]) {
         return sortConfig.direction === 'asc' ? -1 : 1;
       }
@@ -80,6 +89,8 @@ const TableList: React.FC<TableListProps> = ({
       return 0;
     });
   }, [data, sortConfig]);
+
+  console.log(sortedData)
 
   const getSortIcon = (columnId: string) => {
     if (sortConfig.key !== columnId) {
@@ -188,14 +199,32 @@ const TableList: React.FC<TableListProps> = ({
             </TouchableOpacity>
           ))}
         </View>
-        <FlatList
-          data={sortedData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={onEndReachedThreshold}
-          style={{ maxHeight: height ? height - (title ? 90 : 50) : undefined }}
-        />
+        {sortedData.length > 0 ? (
+          <FlatList
+            data={sortedData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+            onEndReached={onEndReached}
+            onEndReachedThreshold={onEndReachedThreshold}
+            style={{ maxHeight: height ? height - (title ? 90 : 50) : undefined }}
+          />
+        ) : loading ? (
+          <View style={[
+            styles.noDataContainer, 
+            { height: height ? height - (title ? 90 : 50) : 150 }
+          ]}>
+            <Loader size="small" text="Loading data..." />
+          </View>
+        ) : (
+          <View style={[
+            styles.noDataContainer, 
+            { height: height ? height - (title ? 90 : 50) : 150 }
+          ]}>
+            <Typography variant="body1" color={colors.text}>
+              {MESSAGES.DATA_NOT_FOUND}
+            </Typography>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -235,16 +264,14 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
   },
+  noDataContainer: {
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 100, 
+    width: '100%',
+  },
 });
 
 export default TableList;
-
-
-
-
-
-
-
-
-
 

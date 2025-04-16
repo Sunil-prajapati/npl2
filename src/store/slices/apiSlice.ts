@@ -33,8 +33,8 @@ export const fetchData = createAsyncThunk(
   'api/fetchData',
   async ({ endpoint, params, requiresAuth = true }: GetRequestParams, { rejectWithValue }) => {
     try {
-      const response = await ApiService.get(endpoint, params, requiresAuth);
-      return response;
+      const response = await ApiService.get<any>(endpoint, params, requiresAuth);
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch data');
     }
@@ -45,8 +45,8 @@ export const postData = createAsyncThunk(
   'api/postData',
   async ({ endpoint, data, requiresAuth = true }: PostRequestParams, { rejectWithValue }) => {
     try {
-      const response = await ApiService.post(endpoint, data, requiresAuth);
-      return response;
+      const response = await ApiService.post<any>(endpoint, data, requiresAuth);
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to post data');
     }
@@ -98,3 +98,4 @@ const apiSlice = createSlice({
 
 export const { clearApiState } = apiSlice.actions;
 export default apiSlice.reducer;
+

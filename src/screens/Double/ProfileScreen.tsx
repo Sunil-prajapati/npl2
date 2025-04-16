@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Alert, TouchableOpacity, Linking, Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
 import Calendar from '../../components/ui/Calendar';
-import TableList, { TableColumn, TableData } from '../../components/ui/TableList';
+import TableList, { TableColumn } from '../../components/ui/TableList';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import { DateData } from 'react-native-calendars';
@@ -11,33 +11,25 @@ import Typography from '../../components/Typography';
 import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { Marquee } from '@animatereactnative/marquee';
-
-const sampleTableData: TableData[] = [
-  { id: 1, time: '09:30 AM', a: 42, b: 78, c: 12 },
-  { id: 2, time: '10:15 AM', a: 56, b: 34, c: 89 },
-  { id: 3, time: '11:45 AM', a: 91, b: 67, c: 45 },
-  { id: 4, time: '01:30 PM', a: 23, b: 88, c: 76 },
-  { id: 5, time: '03:00 PM', a: 77, b: 12, c: 39 },
-  { id: 6, time: '04:45 PM', a: 65, b: 29, c: 51 },
-  { id: 7, time: '04:45 PM', a: 65, b: 29, c: 51 },
-  { id: 8, time: '04:45 PM', a: 15, b: 29, c: 51 },
-  { id: 12, time: '09:30 AM', a: 42, b: 78, c: 12 },
-  { id: 22, time: '10:15 AM', a: 56, b: 34, c: 89 },
-  { id: 34, time: '11:45 AM', a: 91, b: 67, c: 45 },
-  { id: 47, time: '01:30 PM', a: 23, b: 88, c: 76 },
-  { id: 57, time: '03:00 PM', a: 77, b: 12, c: 39 },
-  { id: 62, time: '04:45 PM', a: 65, b: 29, c: 51 },
-  { id: 76, time: '04:45 PM', a: 65, b: 29, c: 51 },
-  { id: 83, time: '05:45 PM', a: 15, b: 29, c: 51 },
-];
+import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
+import ErrorDisplay from '../../components/ui/ErrorDisplay';
 
 const ProfileScreen = () => {
   const { theme } = useTheme();
+  const { data, loading, error, sendData } = useApi();
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const screenHeight = Dimensions.get('window').height;
   const tableHeight = screenHeight * 0.67;
   
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    await sendData(API_ENDPOINTS.GET_DOUBLE_DATA, { date: selectedDate }, false);
+  };
+
   const openWhatsApp = async (phoneNumber: string) => {
     const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
     try {
@@ -64,7 +56,6 @@ const ProfileScreen = () => {
   
   const handleDayPress = (day: DateData) => {
     setSelectedDate(day.dateString);
-    console.log('Selected day:', day.dateString);
   };
 
   const tableColumns: TableColumn[] = [
@@ -148,17 +139,25 @@ const ProfileScreen = () => {
             className="w-full"
           />
       
-          <TableList
-            columns={tableColumns}
-            data={sampleTableData}
-            className="w-full"
-            height={tableHeight}
-          />
+          {error ? (
+            <ErrorDisplay 
+              error={error}
+              onRetry={fetchData}
+              height={tableHeight}
+            />
+          ) : (
+            <TableList
+              columns={tableColumns}
+              data={data}
+              className="w-full"
+              height={tableHeight}
+              loading={loading}
+            />
+          )}
       </View>
     </ScreenWrapper>
   );
 };
 
 export default ProfileScreen;
-
 

@@ -4,6 +4,7 @@ import apiReducer from './slices/apiSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  api: apiReducer,
 });
 
 export default rootReducer;
