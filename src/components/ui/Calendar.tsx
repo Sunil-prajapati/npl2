@@ -249,8 +249,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 6,
   },
   controls: {
     flexDirection: 'row',
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   dateSelector: {
-    padding: 12,
+    padding: 6,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 4,

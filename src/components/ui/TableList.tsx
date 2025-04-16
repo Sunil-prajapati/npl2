@@ -27,6 +27,8 @@ interface TableListProps {
   className?: string;
   onEndReached?: () => void;
   onEndReachedThreshold?: number;
+  height?: number;
+  title?: string;
 }
 
 type SortDirection = 'asc' | 'desc' | null;
@@ -37,6 +39,8 @@ const TableList: React.FC<TableListProps> = ({
   className = '',
   onEndReached,
   onEndReachedThreshold = 0.5,
+  height,
+  title,
 }) => {
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
@@ -117,10 +121,14 @@ const TableList: React.FC<TableListProps> = ({
         { backgroundColor: index % 2 === 0 ? colors.light : colors.primary + '30' },
       ]}
     >
-      {columns.map((column) => (
+      {columns.map((column, colIndex) => (
         <View
           key={`${item.id}-${column.id}`}
-          style={[styles.cell, { width: getColumnWidth(column) }]}
+          style={[
+            styles.cell, 
+            { width: getColumnWidth(column) },
+            colIndex === 0 ? { paddingLeft: 12 } : {}
+          ]}
         >
           {column.renderCell ? (
             column.renderCell(item[column.id], item)
@@ -137,19 +145,30 @@ const TableList: React.FC<TableListProps> = ({
   return (
     <View 
       className={`rounded-lg overflow-hidden ${className}`} 
-      style={styles.container}
+      style={[styles.container, height ? { height } : {}]}
       onLayout={(event) => {
         const { width } = event.nativeEvent.layout;
         setContainerWidth(width);
       }}
     >
+      {title && (
+        <View style={[styles.titleContainer, { backgroundColor: colors.dark }]}>
+          <Typography variant="h6" color={colors.light} style={styles.title}>
+            {title}
+          </Typography>
+        </View>
+      )}
       <View>
         {/* Header Row */}
         <View style={[styles.row, styles.headerRow, { backgroundColor: colors.dark }]}>
-          {columns.map((column) => (
+          {columns.map((column, colIndex) => (
             <TouchableOpacity
               key={column.id}
-              style={[styles.cell, { width: getColumnWidth(column) }]}
+              style={[
+                styles.cell, 
+                { width: getColumnWidth(column) },
+                colIndex === 0 ? { paddingLeft: 12 } : {}
+              ]}
               onPress={() => column.sortable && handleSort(column.id)}
               disabled={!column.sortable}
             >
@@ -175,6 +194,7 @@ const TableList: React.FC<TableListProps> = ({
           keyExtractor={(item) => item.id.toString()}
           onEndReached={onEndReached}
           onEndReachedThreshold={onEndReachedThreshold}
+          style={{ maxHeight: height ? height - (title ? 90 : 50) : undefined }}
         />
       </View>
     </View>
@@ -198,7 +218,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   cell: {
-    padding: 10,
+    padding: 4,
     justifyContent: 'center',
   },
   headerContent: {
@@ -208,9 +228,21 @@ const styles = StyleSheet.create({
   sortIcon: {
     marginLeft: 4,
   },
+  titleContainer: {
+    padding: 16,
+    justifyContent: 'center',
+  },
+  title: {
+    textAlign: 'center',
+  },
 });
 
 export default TableList;
+
+
+
+
+
 
 
 

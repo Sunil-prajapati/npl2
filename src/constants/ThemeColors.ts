@@ -4,12 +4,12 @@ export const THEME_COLORS = {
   [THEME_TYPE.GOLD]: {
     light: '#FFF6E0',
     primary: '#FFD700',
-    dark: '#B8860B',
+    dark: '#f5bf03',
     text: '#000000',
     background: '#FFF6E0',
     headerBg: '#FFF6E0',
     tabBarBg: '#FFF6E0',
-    activeIcon: '#B8860B',
+    activeIcon: '#f5bf03',
     inactiveIcon: '#FFD700',
   },
   [THEME_TYPE.SILVER]: {

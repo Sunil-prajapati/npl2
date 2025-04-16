@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store';
+import { getDeviceRegion } from '../utils/regionUtils';
 
-const BASE_URL = 'https://api.example.com';
+const BASE_URL = 'blindly-strong-flounder.ngrok-free.app';
 
 // Create two axios instances - one for authenticated requests, one for public requests
 const axiosAuthInstance: AxiosInstance = axios.create({
@@ -25,13 +26,30 @@ const axiosPublicInstance: AxiosInstance = axios.create({
 // Request interceptor for authenticated requests
 axiosAuthInstance.interceptors.request.use(
   (config: AxiosRequestConfig): AxiosRequestConfig => {
-    // Get auth token from Redux store
     const state = store.getState();
     const token = state.auth?.user?.token;
     
-    // Add auth token to headers
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    if (config.headers) {
+      config.headers['X-Region'] = getDeviceRegion();
+    }
+    
+    return config;
+  },
+  (error: AxiosError): Promise<AxiosError> => {
+    return Promise.reject(error);
+  }
+);
+
+// Request interceptor for public requests
+axiosPublicInstance.interceptors.request.use(
+  (config: AxiosRequestConfig): AxiosRequestConfig => {
+    // Add region to headers for public requests too
+    if (config.headers) {
+      config.headers['X-Region'] = getDeviceRegion();
     }
     
     return config;
