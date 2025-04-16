@@ -32,6 +32,11 @@ const Options: React.FC<OptionsProps> = ({ visible, onClose }) => {
     onClose();
   };
 
+  const handleMonthlyChart = () => {
+    navigation.navigate(APP_SCREEN_NAME.MONTHLY_CHART);
+    onClose();
+  };
+
   return (
     <Modal
       transparent={true}
@@ -60,6 +65,24 @@ const Options: React.FC<OptionsProps> = ({ visible, onClose }) => {
               style={styles.optionText}
             >
               {theme === THEME_TYPE.GOLD ? 'Light Theme' : 'Dark Theme'}
+            </Typography>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.optionItem}
+            onPress={handleMonthlyChart}
+          >
+            <Icon 
+              name="calendar-outline" 
+              size={24} 
+              color={colors.activeIcon} 
+            />
+            <Typography 
+              variant="body1" 
+              color={colors.text} 
+              style={styles.optionText}
+            >
+              {APP_SCREEN_NAME.MONTHLY_CHART}
             </Typography>
           </TouchableOpacity>
           

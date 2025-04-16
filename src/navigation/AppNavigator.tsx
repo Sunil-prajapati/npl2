@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './BottomTabNavigator';
 import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
 import NoNetworkScreen from '../screens/NoNetworkScreen';
+import MonthlyChartScreen from '../screens/MonthlyChartScreen';
 import { useTheme } from '../context/ThemeContext';
 import { THEME_COLORS } from '../constants/ThemeColors';
 import { APP_SCREEN_NAME } from '../constants/AppScreenName';
@@ -13,6 +14,7 @@ export type RootStackParamList = {
   Main: undefined;
   PrivacyPolicy: undefined;
   NoNetwork: undefined;
+  MonthlyChart: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -40,6 +42,11 @@ const AppNavigator = () => {
           options={{ title: APP_SCREEN_NAME.PRIVACY_POLICY }}
         />
         <Stack.Screen 
+          name={APP_SCREEN_NAME.MONTHLY_CHART}
+          component={MonthlyChartScreen} 
+          options={{ title: APP_SCREEN_NAME.MONTHLY_CHART }}
+        />
+        <Stack.Screen 
           name="NoNetwork"
           component={NoNetworkScreen} 
           options={{ title: "No Internet Connection" }}
@@ -50,4 +57,5 @@ const AppNavigator = () => {
 };
 
 export default AppNavigator;
+
 
