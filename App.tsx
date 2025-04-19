@@ -9,7 +9,9 @@ import "./global.css";
 import './gesture-handler';
 
 enableScreens();
-
+if (__DEV__) {
+  require("./ReactotronConfig");
+}
 const App: React.FC = () => {
   return (
     <Provider store={store}>

@@ -1,12 +1,11 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store';
 import { getDeviceRegion } from '../utils/regionUtils';
-
-const BASE_URL = 'blindly-strong-flounder.ngrok-free.app';
+import { BASE_API_URL } from '../constants/ApiEndPoints';
 
 // Create two axios instances - one for authenticated requests, one for public requests
 const axiosAuthInstance: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_API_URL,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
@@ -15,7 +14,7 @@ const axiosAuthInstance: AxiosInstance = axios.create({
 });
 
 const axiosPublicInstance: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_API_URL,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
