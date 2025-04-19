@@ -16,7 +16,7 @@ import { Marquee } from '@animatereactnative/marquee';
 
 const HomeScreen = () => {
   const { theme } = useTheme();
-  const {data, loading, error, sendData } = useApi();
+  const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const screenHeight = Dimensions.get('window').height;
@@ -25,6 +25,13 @@ const HomeScreen = () => {
   useEffect(() => {
     sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
   }, []);
+
+  useEffect(() => {
+    if (selectedDate) {
+      sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
+    }
+  }, [selectedDate]);
+
 
   const openWhatsApp = async (phoneNumber: string) => {
     const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
@@ -155,5 +162,3 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
-
-

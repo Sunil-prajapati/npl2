@@ -16,7 +16,7 @@ import ErrorDisplay from '../../components/ui/ErrorDisplay';
 
 const ProfileScreen = () => {
   const { theme } = useTheme();
-  const { data, loading, error, sendData } = useApi();
+  const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_DOUBLE_DATA);
   const colors = THEME_COLORS[theme];
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const screenHeight = Dimensions.get('window').height;
@@ -24,12 +24,12 @@ const ProfileScreen = () => {
   
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [selectedDate]);
 
   const fetchData = async () => {
     await sendData(API_ENDPOINTS.GET_DOUBLE_DATA, { date: selectedDate }, false);
   };
-
+    console.log(data, "double")
   const openWhatsApp = async (phoneNumber: string) => {
     const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
     try {
@@ -67,7 +67,7 @@ const ProfileScreen = () => {
       ),
     },
     { 
-      id: 'a', 
+      id: 'aa',
       label: 'AA',
       renderCell: (value) => (
         <Typography variant="body2" color={TABLE_COLUMNS_COLOR.A} style={{ fontWeight: 'bold' }}>
@@ -77,7 +77,7 @@ const ProfileScreen = () => {
       headerTextColor: TABLE_COLUMNS_COLOR.A
     },    
     { 
-      id: 'b', 
+      id: 'bb',
       label: 'BB',
       renderCell: (value) => (
         <Typography variant="body2" color={TABLE_COLUMNS_COLOR.B} style={{ fontWeight: 'bold' }}>
@@ -87,7 +87,7 @@ const ProfileScreen = () => {
       headerTextColor: TABLE_COLUMNS_COLOR.B
     },
     { 
-      id: 'c', 
+      id: 'cc',
       label: 'CC',
       renderCell: (value) => (
         <Typography variant="body2" color={TABLE_COLUMNS_COLOR.C} style={{ fontWeight: 'bold' }}>
@@ -160,4 +160,6 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
+
+
 

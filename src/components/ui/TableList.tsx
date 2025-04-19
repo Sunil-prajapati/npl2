@@ -71,15 +71,15 @@ const TableList: React.FC<TableListProps> = ({
   };
 
   const sortedData = useMemo(() => {
-    const dataWithIds = Array.isArray(data) ? data.map((item, index) => {
-      return item.id ? item : { ...item, id: index.toString() };
-    }) : [];
+    if (!Array.isArray(data) || data.length === 0) {
+      return [];
+    }
     
     if (!sortConfig.direction) {
-      return dataWithIds;
+      return data;
     }
 
-    return dataWithIds.sort((a, b) => {
+    return [...data].sort((a, b) => {
       if (a[sortConfig.key] < b[sortConfig.key]) {
         return sortConfig.direction === 'asc' ? -1 : 1;
       }
@@ -274,4 +274,5 @@ const styles = StyleSheet.create({
 });
 
 export default TableList;
+
 
