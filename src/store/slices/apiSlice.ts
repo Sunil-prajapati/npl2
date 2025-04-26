@@ -48,7 +48,6 @@ export const postData = createAsyncThunk(
   'api/postData',
   async ({ endpoint, data, requiresAuth = true }: PostRequestParams, { rejectWithValue }) => {
     try {
-      console.log(data, "apislice==")
       const response = await ApiService.post<any>(endpoint, data, requiresAuth);
       return { endpoint, data: response.data };
     } catch (error: any) {

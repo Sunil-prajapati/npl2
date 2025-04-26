@@ -13,7 +13,6 @@ import "./global.css";
 import './gesture-handler';
 
 enableScreens();
-
 const App: React.FC = () => {
   useEffect(() => {
     const localizationListener = RNLocalize.addEventListener('change', () => {
@@ -40,3 +39,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
