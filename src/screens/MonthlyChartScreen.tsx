@@ -7,12 +7,15 @@ import {useTheme} from '../context/ThemeContext';
 import {THEME_COLORS} from '../constants/ThemeColors';
 import Box from '../components/Box';
 import CustomDropdown from '../components/ui/CustomDropdown';
+import useApi from '../hooks/useApi';
+import {API_ENDPOINTS} from '../constants/ApiEndPoints';
 
 const MonthlyChartScreen = () => {
   const {theme} = useTheme();
   const colors = THEME_COLORS[theme];
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState('');
+  const {sendData} = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
 
   const dropdownOptions = [
     { key: 'A', value: 'A' },
@@ -22,8 +25,15 @@ const MonthlyChartScreen = () => {
 
   useEffect(() => {
     setSelectedOption('A');
+    const formattedMonth = formatYearMonth(currentMonth);
+    // sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: formattedMonth }, false);
   }, []);
 
+  const formatYearMonth = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${year}-${month}`;
+  };
 
   const handleOptionSelect = (key: string, value: string) => {
     setSelectedOption(key);
@@ -36,7 +46,6 @@ const MonthlyChartScreen = () => {
     } else if (key === 'C') {
       newDate.setMonth(8);
     }
-    
     setCurrentMonth(newDate);
   };
 
@@ -132,4 +141,5 @@ const styles = StyleSheet.create({
 });
 
 export default MonthlyChartScreen;
+
 

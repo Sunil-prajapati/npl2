@@ -90,8 +90,6 @@ const TableList: React.FC<TableListProps> = ({
     });
   }, [data, sortConfig]);
 
-  console.log(sortedData)
-
   const getSortIcon = (columnId: string) => {
     if (sortConfig.key !== columnId) {
       return 'swap-vertical-outline';

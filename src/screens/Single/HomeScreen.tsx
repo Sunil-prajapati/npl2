@@ -1,37 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, Alert, TouchableOpacity, Linking, Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
-import Calendar from '../../components/ui/Calendar';
-import TableList, { TableColumn } from '../../components/ui/TableList';
+import SharedCalendar from '../../components/SharedCalendar';
+import TableList from '../../components/ui/TableList';
 import ErrorDisplay from '../../components/ui/ErrorDisplay';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
-import { DateData } from 'react-native-calendars';
 import Typography from '../../components/Typography';
 import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import { Marquee } from '@animatereactnative/marquee';
+import { isSameAsCurrentDate } from '../../helper/helper';
+import { useDateContext } from '../../context/DateContext';
 
 const HomeScreen = () => {
   const { theme } = useTheme();
   const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
   const colors = THEME_COLORS[theme];
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const { selectedDate } = useDateContext();
   const screenHeight = Dimensions.get('window').height;
   const tableHeight = screenHeight * 0.67;
 
-  useEffect(() => {
-    sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
-  }, []);
-
-  useEffect(() => {
-    if (selectedDate) {
-      sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
+  const fetchData = () => {
+    let date;
+    if(selectedDate && !isSameAsCurrentDate(selectedDate)){
+      date = selectedDate;
+    } else {
+      date = null;
     }
-  }, [selectedDate]);
+    sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: date }, false);
+  };
 
+  useEffect(() => {
+    fetchData();
+  }, [selectedDate]);
 
   const openWhatsApp = async (phoneNumber: string) => {
     const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
@@ -49,18 +53,6 @@ const HomeScreen = () => {
       console.error("Error opening WhatsApp:", error);
     }
   };
-
-  const markedDates = {
-    ...(selectedDate ? { [selectedDate]: { selected: true } } : {}),
-    '2024-06-15': { marked: true, dotColor: colors.dark },
-    '2024-06-20': { marked: true, dotColor: 'red' },
-    '2024-06-25': { marked: true, dotColor: 'green' },
-  };
-
-  const handleDayPress = (day: DateData) => {
-    setSelectedDate(day.dateString);
-  };
-
 
   const tableColumns: TableColumn[] = [
     {
@@ -135,17 +127,12 @@ const HomeScreen = () => {
             </Marquee>
           </Box>
         </TouchableOpacity>
-        <Calendar
-          onDayPress={handleDayPress}
-          markedDates={markedDates}
-          initialDate={new Date().toISOString().split('T')[0]}
-          className="w-full"
-        />
+        <SharedCalendar className="w-full" />
         {error ? (
           <ErrorDisplay 
             error={error}
             height={tableHeight}
-            onRetry={() => {}}
+            onRetry={fetchData}
           />
         ) : (
           <TableList
@@ -162,3 +149,8 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+
+
+
+
