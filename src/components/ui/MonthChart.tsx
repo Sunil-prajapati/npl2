@@ -5,23 +5,26 @@ import {THEME_COLORS} from '../../constants/ThemeColors';
 import Typography from '../Typography';
 
 interface MonthChartProps {
-  month?: Date; // Optional: defaults to current month
+  month?: Date;
   className?: string;
+  data?: Record<string, Record<string, number>>; // Added data prop
 }
 
 const MonthChart: React.FC<MonthChartProps> = ({
   month = new Date(),
   className = '',
+  data,
 }) => {
   const {theme} = useTheme();
   const colors = THEME_COLORS[theme];
 
-  // Generate time slots from 08:30 AM to 03:00 PM in 15-minute increments
+
+  const chartData = data;
   const timeSlots = useMemo(() => {
     const slots = [];
     const startHour = 8;
-    const startMinute = 30;
-    const endHour = 15;
+    const startMinute = 0;
+    const endHour = 24;
     const endMinute = 0;
     
     for (let h = startHour; h <= endHour; h++) {
@@ -52,53 +55,83 @@ const MonthChart: React.FC<MonthChartProps> = ({
     return dates;
   }, [month]);
 
-  // Generate random data for the heatmap
-  const generateRandomData = () => {
-    return Math.floor(Math.random() * 10); // Random number from 0 to 9
-  };
-
-  // Get color based on value
   const getColorForValue = (value: number) => {
-    if (value === 0) return '#f5f5f5'; // Light gray for 0
-    if (value <= 3) return '#c8e6c9'; // Light green for 1-3
-    if (value <= 6) return '#81c784'; // Medium green for 4-6
-    return '#4caf50'; // Dark green for 7-9
+    switch (value) {
+      case 0: return '#f5f5f5'; // Light gray for 0
+      case 1: return '#FF0000'; // Red for 1
+      case 2: return '#00FF00'; // Green for 2
+      case 3: return '#0000FF'; // Blue for 3
+      case 4: return '#FFA500'; // Orange for 4
+      case 5: return '#800080'; // Purple for 5
+      case 6: return '#00FFFF'; // Cyan for 6
+      case 7: return '#FF00FF'; // Magenta for 7
+      case 8: return '#FFFF00'; // Yellow for 8
+      case 9: return '#A52A2A'; // Brown for 9
+      default: return '#f5f5f5'; // Default to light gray
+    }
   };
 
+  // Replace the random data generation with data lookup
+  const getDataValue = (date: Date, timeSlot: string): number => {
+    const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    return chartData[dateStr]?.[timeSlot] ?? 0;
+  };
   return (
     <View className={`${className}`} style={styles.container}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View>
-          {/* Header row with dates */}
-          <View style={styles.headerRow}>
-            <View style={styles.timeHeaderCell}>
+      {/* Fixed top-left corner cell */}
+      <View style={styles.cornerCell}>
+        <Typography variant="caption" color={colors.text}>
+          Time / Date
+        </Typography>
+      </View>
+      
+      {/* Fixed date header row (sticky top) */}
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={styles.dateHeaderContainer}
+      >
+        <View style={styles.headerRow}>
+          {dates.map((date, index) => (
+            <View key={`date-${index}`} style={styles.dateHeaderCell}>
               <Typography variant="caption" color={colors.text}>
-                Time / Date
+                {date.getDate()}
+              </Typography>
+              <Typography variant="caption" color={colors.text}>
+                {date.toLocaleString('default', {weekday: 'short'})}
               </Typography>
             </View>
-            {dates.map((date, index) => (
-              <View key={`date-${index}`} style={styles.dateHeaderCell}>
+          ))}
+        </View>
+      </ScrollView>
+      
+      {/* Fixed time column (sticky left) */}
+      <View style={styles.timeColumnContainer}>
+        <ScrollView vertical showsVerticalScrollIndicator={false}>
+          <View>
+            {timeSlots.map((timeSlot, timeIndex) => (
+              <View key={`time-${timeIndex}`} style={styles.timeCell}>
                 <Typography variant="caption" color={colors.text}>
-                  {date.getDate()}
-                </Typography>
-                <Typography variant="caption" color={colors.text}>
-                  {date.toLocaleString('default', {weekday: 'short'})}
+                  {timeSlot}
                 </Typography>
               </View>
             ))}
           </View>
-
-          {/* Scrollable grid */}
-          <ScrollView showsVerticalScrollIndicator={false}>
+        </ScrollView>
+      </View>
+      
+      {/* Main scrollable content area */}
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={styles.mainContentContainer}
+      >
+        <ScrollView vertical showsVerticalScrollIndicator={false}>
+          <View>
             {timeSlots.map((timeSlot, timeIndex) => (
               <View key={`time-${timeIndex}`} style={styles.row}>
-                <View style={styles.timeCell}>
-                  <Typography variant="caption" color={colors.text}>
-                    {timeSlot}
-                  </Typography>
-                </View>
-                {dates.map((_, dateIndex) => {
-                  const value = generateRandomData();
+                {dates.map((date, dateIndex) => {
+                  const value = getDataValue(date, timeSlot);
                   return (
                     <View
                       key={`cell-${timeIndex}-${dateIndex}`}
@@ -112,8 +145,8 @@ const MonthChart: React.FC<MonthChartProps> = ({
                 })}
               </View>
             ))}
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -125,20 +158,57 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: '#ddd',
+    height: "94%",
+    position: 'relative',
   },
-  headerRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    backgroundColor: '#f9f9f9',
-  },
-  timeHeaderCell: {
+  cornerCell: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
     width: 80,
+    height: 50,
     padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f9f9f9',
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderRightColor: '#ddd',
+    borderBottomColor: '#ddd',
+    zIndex: 3,
+  },
+  dateHeaderContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 80,
+    right: 0,
+    height: 50,
+    backgroundColor: '#f9f9f9',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    zIndex: 2,
+  },
+  timeColumnContainer: {
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    width: 80,
+    bottom: 0,
+    backgroundColor: '#f9f9f9',
     borderRightWidth: 1,
     borderRightColor: '#ddd',
+    zIndex: 1,
+  },
+  mainContentContainer: {
+    position: 'absolute',
+    top: 50,
+    left: 80,
+    right: 0,
+    bottom: 0,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    height: 50,
   },
   dateHeaderCell: {
     width: 50,
@@ -155,10 +225,11 @@ const styles = StyleSheet.create({
   },
   timeCell: {
     width: 80,
+    height: 40,
     padding: 8,
     justifyContent: 'center',
-    borderRightWidth: 1,
-    borderRightColor: '#ddd',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
   dataCell: {
     width: 50,

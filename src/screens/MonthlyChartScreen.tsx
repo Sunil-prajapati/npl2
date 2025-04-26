@@ -2,13 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import ScreenWrapper from '../components/ScreenWrapper';
 import MonthChart from '../components/ui/MonthChart';
-import Typography from '../components/Typography';
 import {useTheme} from '../context/ThemeContext';
 import {THEME_COLORS} from '../constants/ThemeColors';
-import Box from '../components/Box';
 import CustomDropdown from '../components/ui/CustomDropdown';
 import useApi from '../hooks/useApi';
 import {API_ENDPOINTS} from '../constants/ApiEndPoints';
+import { monthData } from '../constants/enum';
 
 const MonthlyChartScreen = () => {
   const {theme} = useTheme();
@@ -62,32 +61,8 @@ const MonthlyChartScreen = () => {
         />
         
         <View style={styles.chartContainer}>
-          <MonthChart month={currentMonth} className="w-full" />
+          <MonthChart month={currentMonth} className="w-full" data={monthData} />
         </View>
-        
-        <Box bgColor={colors.light} style={styles.legendBox}>
-          <Typography variant="caption" color={colors.text}>
-            Color Legend:
-          </Typography>
-          <View style={styles.legendItems}>
-            <View style={styles.legendItem}>
-              <View style={[styles.colorBox, {backgroundColor: '#f5f5f5'}]} />
-              <Typography variant="caption" color={colors.text}>0 (No activity)</Typography>
-            </View>
-            <View style={styles.legendItem}>
-              <View style={[styles.colorBox, {backgroundColor: '#c8e6c9'}]} />
-              <Typography variant="caption" color={colors.text}>1-3 (Low)</Typography>
-            </View>
-            <View style={styles.legendItem}>
-              <View style={[styles.colorBox, {backgroundColor: '#81c784'}]} />
-              <Typography variant="caption" color={colors.text}>4-6 (Medium)</Typography>
-            </View>
-            <View style={styles.legendItem}>
-              <View style={[styles.colorBox, {backgroundColor: '#4caf50'}]} />
-              <Typography variant="caption" color={colors.text}>7-9 (High)</Typography>
-            </View>
-          </View>
-        </Box>
       </View>
     </ScreenWrapper>
   );
