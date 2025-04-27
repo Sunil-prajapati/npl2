@@ -5,12 +5,29 @@ import { useTheme } from '../context/ThemeContext';
 import { THEME_COLORS } from '../constants/ThemeColors';
 import Options from './Options';
 import useShare from '../hooks/useShare';
+import useApi from '../hooks/useApi';
+import { API_ENDPOINTS } from '../constants/ApiEndPoints';
+import { useDateContext } from '../context/DateContext';
+import { isSameAsCurrentDate } from '../helper/helper';
 
 const HeaderRight = () => {
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
   const [optionsVisible, setOptionsVisible] = useState(false);
   const { handleShare } = useShare();
+  const { sendData } = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
+  const { selectedDate } = useDateContext();
+  
+  const handleRefresh = () => {
+    let date;
+    if(selectedDate && !isSameAsCurrentDate(selectedDate)){
+      date = selectedDate;
+    } else {
+      date = null;
+    }
+    sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: date }, false);
+    sendData(API_ENDPOINTS.GET_DOUBLE_DATA, { date: date }, false);
+  };
   
   const toggleOptions = () => {
     setOptionsVisible(!optionsVisible);
@@ -25,7 +42,7 @@ const HeaderRight = () => {
   
   return (
     <View className='flex flex-row justify-between px-[5%] w-[60%]'>
-      <TouchableOpacity className="px-2" onPress={() => console.log('Refresh')}>
+      <TouchableOpacity className="px-2" onPress={handleRefresh}>
         <Icon name="refresh" size={24} color={colors.activeIcon} />
       </TouchableOpacity>
       <TouchableOpacity className="px-2" onPress={onSharePress}>
@@ -44,5 +61,3 @@ const HeaderRight = () => {
 };
 
 export default HeaderRight;
-
-

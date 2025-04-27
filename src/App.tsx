@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { store } from './src/store';
-import AppNavigator from './src/navigation/AppNavigator';
+import { store } from './store';
+import AppNavigator from './navigation/AppNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { enableScreens } from 'react-native-screens';
-import { ThemeProvider } from './src/context/ThemeContext';
-import { NetworkProvider } from './src/context/NetworkContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { NetworkProvider } from './context/NetworkContext';
+import { DateProvider } from './context/DateContext';
 import * as RNLocalize from 'react-native-localize';
-import { refreshRegion } from './src/utils/regionUtils';
+import { refreshRegion } from './utils/regionUtils';
 import "./global.css";
 import './gesture-handler';
 
 enableScreens();
-
 const App: React.FC = () => {
   useEffect(() => {
     const localizationListener = RNLocalize.addEventListener('change', () => {
@@ -26,14 +26,17 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <NetworkProvider>
-          <SafeAreaProvider>
-            <AppNavigator />
-          </SafeAreaProvider>
-        </NetworkProvider>
+        <DateProvider>
+          <NetworkProvider>
+            <SafeAreaProvider>
+              <AppNavigator />
+            </SafeAreaProvider>
+          </NetworkProvider>
+        </DateProvider>
       </ThemeProvider>
     </Provider>
   );
 };
 
 export default App;
+

@@ -4,7 +4,7 @@ import { Calendar as RNCalendar, DateData, CalendarTheme } from 'react-native-ca
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../Typography';
-
+import { useDateContext } from '../../context/DateContext';
 
 interface CalendarProps {
   onDayPress?: (day: DateData) => void;
@@ -41,7 +41,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
   const today = new Date().toISOString().split('T')[0];
-  const [selectedDate, setSelectedDate] = useState<string | null>(today);
+  const { selectedDate } = useDateContext();
   const [currentMonth, setCurrentMonth] = useState<string>(
     initialDate || today
   );
@@ -56,34 +56,13 @@ const Calendar: React.FC<CalendarProps> = ({
   // Use today as the maxDate if not provided to prevent selecting future dates
   const effectiveMaxDate = maxDate || today;
 
-  // Initialize with today's date selected
+  // Update local marked dates when markedDates prop changes
   useEffect(() => {
-    // Create initial marked dates with today selected
-    const initialMarkedDates = {
-      ...markedDates,
-      [today]: {
-        ...(markedDates[today] || {}),
-        selected: true,
-      },
-    };
-    setLocalMarkedDates(initialMarkedDates);
-    
-    // Notify parent component if onDayPress is provided
-    if (onDayPress) {
-      const dayData: DateData = {
-        dateString: today,
-        day: new Date().getDate(),
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
-        timestamp: new Date().getTime()
-      };
-      onDayPress(dayData);
-    }
-  }, []);
+    setLocalMarkedDates(markedDates);
+  }, [markedDates]);
 
   const handleDayPress = (day: DateData) => {
     const dateString = day.dateString;
-    setSelectedDate(dateString);
     
     // Create a new object with only the current selection
     const updatedMarkedDates = {};
@@ -284,6 +263,7 @@ const styles = StyleSheet.create({
 });
 
 export default Calendar;
+
 
 
 

@@ -111,10 +111,29 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force "androidx.core:core:1.13.1"
+        force "androidx.lifecycle:lifecycle-runtime:2.6.2"
+        force "androidx.collection:collection:1.3.0"
+        force "androidx.fragment:fragment:1.6.2"
+        
+        // Exclude support library to avoid duplicates
+        exclude group: 'com.android.support'
+    }
+}
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation project(':react-native-vector-icons')
+    implementation(project(':react-native-vector-icons'))
+    
+    // Add exclusions to the splash screen dependency
+    implementation(project(':react-native-splash-screen')) {
+        exclude group: 'com.android.support'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
@@ -122,3 +141,5 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+
