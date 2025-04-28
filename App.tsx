@@ -8,6 +8,7 @@ import { ThemeProvider } from './src/context/ThemeContext';
 import "./global.css";
 import './gesture-handler';
 import SplashScreen from 'react-native-splash-screen'
+import { useNotification } from './src/hooks/useNotification';
 
 enableScreens();
 if (__DEV__) {
@@ -17,6 +18,8 @@ const App: React.FC = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  useNotification()
 
   return (
     <Provider store={store}>
