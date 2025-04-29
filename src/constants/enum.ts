@@ -2953,3 +2953,12 @@ export const monthData = {
         "11:45 PM": 0
     }
 }
+
+export const API_CODE = {
+    SUCCESS: 200,
+    UNAUTHORIZED: 401,
+    EXISTED:422,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    INTERNAL_SERVER_ERROR: 500,
+}

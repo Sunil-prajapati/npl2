@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
+import ApiService from '../api/apiService';
+import { API_ENDPOINTS } from '../constants/ApiEndPoints';
+import { API_CODE } from 'constants/enum';
 
 const requestNotificationPermission = async () => {
   try {
@@ -32,9 +35,13 @@ const requestNotificationPermission = async () => {
 const getToken = async () => {
   try {
     const token = await messaging().getToken();
-    console.log('FCM Token:', token);
-  } catch (error) {
-    console.error('Error getting FCM Token:', error);
+    await ApiService.post(API_ENDPOINTS.TOKEN, { token }, false);
+  } catch (error: any) {
+    if (error?.status === API_CODE.EXISTED) {
+      console.log('Token already registered on server');
+    } else {
+      console.error('Error getting or registering FCM Token:', error);
+    }
   }
 };
 
