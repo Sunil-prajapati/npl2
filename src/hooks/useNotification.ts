@@ -4,7 +4,7 @@ import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
 import ApiService from '../api/apiService';
 import { API_ENDPOINTS } from '../constants/ApiEndPoints';
-import { API_CODE } from 'constants/enum';
+import { API_CODE } from '../constants/enum';
 
 const requestNotificationPermission = async () => {
   try {
