@@ -5,6 +5,7 @@ import notifee from '@notifee/react-native';
 import ApiService from '../api/apiService';
 import { API_ENDPOINTS } from '../constants/ApiEndPoints';
 import { API_CODE } from '../constants/enum';
+import DeviceInfo from 'react-native-device-info';
 
 const requestNotificationPermission = async () => {
   try {
@@ -34,8 +35,12 @@ const requestNotificationPermission = async () => {
 
 const getToken = async () => {
   try {
-    const token = await messaging().getToken();
-    await ApiService.post(API_ENDPOINTS.TOKEN, { token }, false);
+    const deviceId = await DeviceInfo.getUniqueId();
+    const fcmToken = await messaging().getToken();
+    await ApiService.post(API_ENDPOINTS.TOKEN, { 
+      token: fcmToken,
+      device_id: deviceId 
+    }, false);
   } catch (error: any) {
     if (error?.status === API_CODE.EXISTED) {
       console.log('Token already registered on server');

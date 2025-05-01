@@ -8,12 +8,13 @@ import ErrorDisplay from '../../components/ui/ErrorDisplay';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../../components/Typography';
-import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
+import { MESSAGES, MOBILE_NUMBER, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import { Marquee } from '@animatereactnative/marquee';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
+import { openWhatsApp } from '../../utils/whatsapp';
 
 const HomeScreen = () => {
   const { theme } = useTheme();
@@ -36,23 +37,6 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchData();
   }, [selectedDate]);
-
-  const openWhatsApp = async (phoneNumber: string) => {
-    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
-    try {
-      const supported = await Linking.canOpenURL(whatsappUrl);
-      if (supported) {
-        await Linking.openURL(whatsappUrl);
-      } else {
-        Alert.alert(
-          "WhatsApp Not Installed",
-          "WhatsApp is not installed on your device"
-        );
-      }
-    } catch (error) {
-      console.error("Error opening WhatsApp:", error);
-    }
-  };
 
   const tableColumns: TableColumn[] = [
     {
@@ -98,7 +82,7 @@ const HomeScreen = () => {
     <ScreenWrapper>
       <View className="flex-1 items-center justify-start gap-1 p-2">
         <TouchableOpacity
-          onPress={() => openWhatsApp('918054116220')}
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST)}
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
@@ -113,7 +97,7 @@ const HomeScreen = () => {
           </Box>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => openWhatsApp('918054116220')}
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST)}
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
@@ -149,6 +133,7 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
 
 
 
