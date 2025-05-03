@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, Platform, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useTheme } from '../context/ThemeContext';
 import { THEME_COLORS } from '../constants/ThemeColors';
@@ -35,9 +35,17 @@ const HeaderRight = () => {
   
   const onSharePress = () => {
     handleShare({
-      message: 'Check out NglGold app!',
-      title: 'NglGold'
+      message: 'Check out NPLGold app! https://play.google.com/store/apps/details?id=com.nglgold',
+      title: 'NPL Gold'
     });
+  };
+
+  const openAppNotificationSettings = () => {
+    if (Platform.OS === 'ios') {
+      Linking.openURL('app-settings:');
+    } else {
+      Linking.openSettings();
+    }
   };
   
   return (
@@ -48,7 +56,7 @@ const HeaderRight = () => {
       <TouchableOpacity className="px-2" onPress={onSharePress}>
         <Icon name="share-outline" size={24} color={colors.activeIcon} />
       </TouchableOpacity>
-      <TouchableOpacity className="px-2" onPress={() => console.log('Notification')}>
+      <TouchableOpacity className="px-2" onPress={openAppNotificationSettings}>
         <Icon name="notifications-outline" size={24} color={colors.activeIcon} />
       </TouchableOpacity>
       <TouchableOpacity className="px-2" onPress={toggleOptions}>
@@ -61,3 +69,5 @@ const HeaderRight = () => {
 };
 
 export default HeaderRight;
+
+

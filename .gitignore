@@ -1,6 +1,7 @@
 # OSX
 #
 .DS_Store
+
 # Xcode
 #
 build/
@@ -39,6 +40,7 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+package-lock.json
 
 # fastlane
 #
@@ -54,6 +56,8 @@ yarn-error.log
 
 # Bundle artifact
 *.jsbundle
+android/app/src/main/assets/index.android.bundle
+android/app/src/main/assets/index.android.bundle.meta
 
 # Ruby / CocoaPods
 **/Pods/
@@ -72,3 +76,26 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Build folders
+android/app/build/
+android/build/
+ios/build/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Android release builds
+android/app/release/
+
+# iOS specific
+ios/Pods/
+ios/*.xcworkspace/
+ios/Podfile.lock
+
+# Cache
+.cache/
+.eslintcache
+

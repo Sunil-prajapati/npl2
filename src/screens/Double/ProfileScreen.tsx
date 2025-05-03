@@ -7,13 +7,14 @@ import TableList from '../../components/ui/TableList';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../../components/Typography';
-import { MESSAGES, TABLE_COLUMNS_COLOR } from '../../constants/enum';
+import { MESSAGES, MOBILE_NUMBER, TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { Marquee } from '@animatereactnative/marquee';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import ErrorDisplay from '../../components/ui/ErrorDisplay';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
+import { openWhatsApp } from '../../utils/whatsapp';
 
 const ProfileScreen = () => {
   const { theme } = useTheme();
@@ -37,23 +38,6 @@ const ProfileScreen = () => {
     fetchData();
   }, [selectedDate]);
 
-  const openWhatsApp = async (phoneNumber: string) => {
-    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
-    try {
-      const supported = await Linking.canOpenURL(whatsappUrl);
-      if (supported) {
-        await Linking.openURL(whatsappUrl);
-      } else {
-        Alert.alert(
-          "WhatsApp Not Installed",
-          "WhatsApp is not installed on your device"
-        );
-      }
-    } catch (error) {
-      console.error("Error opening WhatsApp:", error);
-    }
-  };
-  
   const tableColumns: TableColumn[] = [
     { id: 'time', label: 'Time', sortable: true, widthRem: 6,
       renderCell: (value) => (
@@ -98,7 +82,7 @@ const ProfileScreen = () => {
     <ScreenWrapper>
       <View className="flex-1 items-center justify-start gap-1 p-2">
         <TouchableOpacity 
-          onPress={() => openWhatsApp('918054116220')} 
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST)} 
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
@@ -113,7 +97,7 @@ const ProfileScreen = () => {
           </Box>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => openWhatsApp('918054116220')}
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST)}
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
@@ -151,6 +135,7 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
+
 
 
 
