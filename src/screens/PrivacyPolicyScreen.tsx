@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Dimensions } from 'react-native';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Typography from '../components/Typography';
 import { useTheme } from '../context/ThemeContext';
@@ -8,10 +8,18 @@ import { THEME_COLORS } from '../constants/ThemeColors';
 const PrivacyPolicyScreen = () => {
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
+  const screenHeight = Dimensions.get('window').height;
+  const bottomPadding = screenHeight * 0.02;
 
   return (
     <ScreenWrapper>
-      <ScrollView style={styles.container}>
+      <ScrollView 
+        style={[
+          styles.container, 
+          { paddingBottom: bottomPadding }
+        ]}
+        contentContainerStyle={{ paddingBottom: bottomPadding }}
+      >
         <Typography variant="h4" color={colors.text} style={styles.title}>
           Privacy Policy
         </Typography>
@@ -24,7 +32,7 @@ const PrivacyPolicyScreen = () => {
           1. Introduction
         </Typography>
         <Typography variant="body1" color={colors.text} style={styles.paragraph}>
-          Welcome to NglGold. We respect your privacy and are committed to protecting your personal data. 
+          Welcome to NPL Gold. We respect your privacy and are committed to protecting your personal data. 
           This privacy policy will inform you about how we look after your personal data when you visit our 
           application and tell you about your privacy rights and how the law protects you.
         </Typography>
@@ -47,7 +55,7 @@ const PrivacyPolicyScreen = () => {
         </Typography>
         <Typography variant="body1" color={colors.text} style={styles.paragraph}>
           If you have any questions about this privacy policy or our privacy practices, please contact us at:
-          support@nglgold.com
+          support@nplgold.com
         </Typography>
       </ScrollView>
     </ScreenWrapper>

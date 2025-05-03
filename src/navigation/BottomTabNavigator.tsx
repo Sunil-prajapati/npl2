@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Dimensions, Platform, View, Image } from 'react-native';
 
 import HomeScreen from '../screens/Single/HomeScreen';
 import ProfileScreen from '../screens/Double/ProfileScreen';
@@ -9,12 +10,65 @@ import HeaderRight from '../components/HeaderRight';
 import { APP_SCREEN_NAME } from '../constants/AppScreenName';
 import { useTheme } from '../context/ThemeContext';
 import { THEME_COLORS } from '../constants/ThemeColors';
+import Typography from '../components/Typography';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
+  
+  const getResponsiveIconSize = useMemo(() => {
+    const baseSize = Platform.OS === 'ios' ? 24 : 20;
+    return Math.round(baseSize * Dimensions.get('window').width / 375);
+  }, []);
+  
+  const getResponsiveFontSize = useMemo(() => {
+    const baseSize = 12;
+    return Math.round(baseSize * Dimensions.get('window').width / 375);
+  }, []);
+  
+  const getResponsiveHeaderFontSize = useMemo(() => {
+    const baseSize = 14
+    return Math.round(baseSize * Dimensions.get('window').width / 375);
+  }, []);
+
+  const CustomHeaderTitle = ({ title }) => (
+    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
+      <View style={{ flexDirection: 'column', alignItems: 'start' }}>
+        <Typography 
+          variant="h6" 
+          color={colors.activeIcon}
+          style={{ 
+            fontSize: getResponsiveHeaderFontSize, 
+            fontWeight: 'bold',
+            lineHeight: getResponsiveHeaderFontSize * 1.2
+          }}
+        >
+          {title}
+        </Typography>
+        <Typography 
+          variant="body2"
+          color={colors.primary}
+          style={{ 
+            fontSize: getResponsiveHeaderFontSize * 0.5,
+            lineHeight: getResponsiveHeaderFontSize * 0.4
+          }}
+        >
+          Gold
+        </Typography>
+      </View>
+      <Image 
+        source={require('../../assets/images/logo.jpeg')}
+        style={{ 
+          width: getResponsiveIconSize * 1.5, 
+          height: getResponsiveIconSize * 1.5,
+          marginLeft: "25%"
+        }} 
+        resizeMode="contain"
+      />
+    </View>
+  );
 
   return (
     <Tab.Navigator
@@ -29,13 +83,16 @@ const BottomTabNavigator = () => {
           // else if (route.name === APP_SCREEN_NAME.CHOOSE) {
           //   iconName = focused ? 'options' : 'options-outline';
           // }
-          return <Icon name={iconName} size={size} color={color} />;
+          return <Icon name={iconName} size={getResponsiveIconSize} color={color} />;
         },
         tabBarActiveTintColor: colors.activeIcon,
         tabBarInactiveTintColor: colors.inactiveIcon,
         tabBarStyle: { backgroundColor: colors.tabBarBg },
         headerStyle: { backgroundColor: colors.headerBg },
         headerTintColor: colors.activeIcon,
+        tabBarLabelStyle: { fontSize: getResponsiveFontSize },
+        headerRight: () => <HeaderRight />,
+        headerRightContainerStyle: { paddingRight: 16 },
       })}
     >
       <Tab.Screen 
@@ -43,7 +100,7 @@ const BottomTabNavigator = () => {
         component={HomeScreen} 
         options={{ 
           tabBarLabel: APP_SCREEN_NAME.SINGLE,
-          headerRight: () => <HeaderRight />,
+          headerTitle: () => <CustomHeaderTitle title={APP_SCREEN_NAME.SINGLE} />
         }}
       />
       <Tab.Screen 
@@ -51,7 +108,7 @@ const BottomTabNavigator = () => {
         component={ProfileScreen} 
         options={{ 
           tabBarLabel: APP_SCREEN_NAME.DOUBLE,
-          headerRight: () => <HeaderRight />,
+          headerTitle: () => <CustomHeaderTitle title={APP_SCREEN_NAME.DOUBLE} />
         }}
       />
       {/* <Tab.Screen 
@@ -59,7 +116,7 @@ const BottomTabNavigator = () => {
         component={SettingsScreen} 
         options={{ 
           tabBarLabel: APP_SCREEN_NAME.CHOOSE,
-          headerRight: () => <HeaderRight />,
+          headerTitle: () => <CustomHeaderTitle title={APP_SCREEN_NAME.CHOOSE} />
         }}
       /> */}
     </Tab.Navigator>
@@ -67,14 +124,5 @@ const BottomTabNavigator = () => {
 };
 
 export default BottomTabNavigator;
-
-
-
-
-
-
-
-
-
 
 

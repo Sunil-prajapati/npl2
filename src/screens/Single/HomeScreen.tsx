@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Alert, TouchableOpacity, Linking, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
 import SharedCalendar from '../../components/SharedCalendar';

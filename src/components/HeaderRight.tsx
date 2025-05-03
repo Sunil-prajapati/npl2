@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, View, Platform, Linking } from 'react-native';
+import React, { useState, useMemo } from 'react';
+import { TouchableOpacity, View, Platform, Linking, PixelRatio, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useTheme } from '../context/ThemeContext';
 import { THEME_COLORS } from '../constants/ThemeColors';
@@ -17,6 +17,11 @@ const HeaderRight = () => {
   const { handleShare } = useShare();
   const { sendData } = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
   const { selectedDate } = useDateContext();
+  
+  const getResponsiveIconSize = useMemo(() => {
+    const baseSize = Platform.OS === 'ios' ? 24 : 20;
+    return Math.round(baseSize * Dimensions.get('window').width / 375);
+  }, []);
   
   const handleRefresh = () => {
     let date;
@@ -49,18 +54,18 @@ const HeaderRight = () => {
   };
   
   return (
-    <View className='flex flex-row justify-between px-[5%] w-[60%]'>
-      <TouchableOpacity className="px-2" onPress={handleRefresh}>
-        <Icon name="refresh" size={24} color={colors.activeIcon} />
+    <View className='flex flex-row justify-between'>
+      <TouchableOpacity className="px-1" onPress={handleRefresh}>
+        <Icon name="refresh" size={getResponsiveIconSize} color={colors.activeIcon} />
       </TouchableOpacity>
-      <TouchableOpacity className="px-2" onPress={onSharePress}>
-        <Icon name="share-outline" size={24} color={colors.activeIcon} />
+      <TouchableOpacity className="px-1" onPress={onSharePress}>
+        <Icon name="share-outline" size={getResponsiveIconSize} color={colors.activeIcon} />
       </TouchableOpacity>
-      <TouchableOpacity className="px-2" onPress={openAppNotificationSettings}>
-        <Icon name="notifications-outline" size={24} color={colors.activeIcon} />
+      <TouchableOpacity className="px-1" onPress={openAppNotificationSettings}>
+        <Icon name="notifications-outline" size={getResponsiveIconSize} color={colors.activeIcon} />
       </TouchableOpacity>
-      <TouchableOpacity className="px-2" onPress={toggleOptions}>
-        <Icon name="options-outline" size={24} color={colors.activeIcon} />
+      <TouchableOpacity className="px-1" onPress={toggleOptions}>
+        <Icon name="options-outline" size={getResponsiveIconSize} color={colors.activeIcon} />
       </TouchableOpacity>
       
       <Options visible={optionsVisible} onClose={toggleOptions} />
@@ -69,5 +74,11 @@ const HeaderRight = () => {
 };
 
 export default HeaderRight;
+
+
+
+
+
+
 
 

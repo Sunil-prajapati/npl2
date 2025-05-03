@@ -175,7 +175,7 @@ const Calendar: React.FC<CalendarProps> = ({
       )}
       
       <TouchableOpacity 
-        style={styles.dateSelector}
+        style={[styles.dateSelector]}
         onPress={() => setIsCalendarOpen(!isCalendarOpen)}
       >
         <Typography variant="body1" color={colors.text}>
@@ -247,6 +247,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginHorizontal: 16,
     marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalOverlay: {
     flex: 1,
@@ -263,6 +265,7 @@ const styles = StyleSheet.create({
 });
 
 export default Calendar;
+
 
 
 
