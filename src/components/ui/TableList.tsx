@@ -205,6 +205,9 @@ const TableList: React.FC<TableListProps> = ({
             onEndReached={onEndReached}
             onEndReachedThreshold={onEndReachedThreshold}
             style={{ maxHeight: height ? height - (title ? 90 : 50) : undefined }}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={true}
+            nestedScrollEnabled={true}
           />
         ) : loading ? (
           <View style={[
@@ -272,5 +275,6 @@ const styles = StyleSheet.create({
 });
 
 export default TableList;
+
 
 
