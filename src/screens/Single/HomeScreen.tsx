@@ -8,7 +8,7 @@ import ErrorDisplay from '../../components/ui/ErrorDisplay';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../../components/Typography';
-import { MESSAGES, MOBILE_NUMBER, TABLE_COLUMNS_COLOR } from '../../constants/enum';
+import { MESSAGES, MOBILE_NUMBER, TABLE_COLUMNS_COLOR, WHATS_APP_MESSAGES } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import { Marquee } from '@animatereactnative/marquee';
@@ -82,7 +82,7 @@ const HomeScreen = () => {
     <ScreenWrapper>
       <View className="flex-1 items-center justify-start gap-1 p-2">
         <TouchableOpacity
-          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST)}
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_PLAY)}
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
@@ -97,7 +97,7 @@ const HomeScreen = () => {
           </Box>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST)}
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_KNOW)}
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
