@@ -92,7 +92,7 @@ const ProfileScreen = () => {
             style={{ paddingVertical: 4, paddingHorizontal: 0 }}
           >
             <Marquee spacing={20} speed={1}>
-              <Typography variant="subtitle2" color={colors.text}>{MESSAGES.WHATS_APP_TEXT}</Typography>
+              <Typography variant="subtitle2" color={colors.red}>{MESSAGES.WHATS_APP_TEXT}</Typography>
             </Marquee>
           </Box>
         </TouchableOpacity>
@@ -103,12 +103,9 @@ const ProfileScreen = () => {
         >
           <Box
             bgColor={colors.primary}
-            padding={0}
-            style={{ paddingVertical: 4, paddingHorizontal: 0, marginTop: 10 }}
+            style={{ paddingVertical: 4, paddingHorizontal: 7, marginVertical: 10 }}
           >
-            <Marquee spacing={20} speed={1}>
               <Typography variant="subtitle2" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
-            </Marquee>
           </Box>
         </TouchableOpacity>
        

@@ -35,7 +35,7 @@ const BottomTabNavigator = () => {
 
   const CustomHeaderTitle = ({ title }) => (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
-      <View style={{ flexDirection: 'column', alignItems: 'start' }}>
+      <View style={{ flexDirection: 'column', alignItems: 'start',width:'48%' }}>
         <Typography 
           variant="h6" 
           color={colors.activeIcon}
@@ -51,8 +51,9 @@ const BottomTabNavigator = () => {
           variant="body2"
           color={colors.primary}
           style={{ 
-            fontSize: getResponsiveHeaderFontSize * 0.5,
-            lineHeight: getResponsiveHeaderFontSize * 0.4
+            fontSize: getResponsiveHeaderFontSize * 0.9,
+            lineHeight: getResponsiveHeaderFontSize * 0.9,
+            fontWeight: 'bold',
           }}
         >
           Gold
@@ -61,9 +62,8 @@ const BottomTabNavigator = () => {
       <Image 
         source={require('../../assets/images/logo.jpg')}
         style={{ 
-          width: getResponsiveIconSize * 1.5, 
-          height: getResponsiveIconSize * 1.5,
-          marginLeft: "27%"
+          width: getResponsiveIconSize * 2, 
+          height: getResponsiveIconSize * 2,
         }} 
         resizeMode="contain"
       />
@@ -99,7 +99,7 @@ const BottomTabNavigator = () => {
         name={APP_SCREEN_NAME.SINGLE} 
         component={HomeScreen} 
         options={{ 
-          tabBarLabel: APP_SCREEN_NAME.SINGLE,
+          tabBarLabel: "Single",
           headerTitle: () => <CustomHeaderTitle title={APP_SCREEN_NAME.SINGLE} />
         }}
       />
@@ -107,7 +107,7 @@ const BottomTabNavigator = () => {
         name={APP_SCREEN_NAME.DOUBLE}
         component={ProfileScreen} 
         options={{ 
-          tabBarLabel: APP_SCREEN_NAME.DOUBLE,
+          tabBarLabel: "Double",
           headerTitle: () => <CustomHeaderTitle title={APP_SCREEN_NAME.DOUBLE} />
         }}
       />

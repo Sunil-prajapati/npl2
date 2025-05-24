@@ -80,7 +80,7 @@ const HomeScreen = () => {
   ];
   return (
     <ScreenWrapper>
-      <View className="flex-1 items-center justify-start gap-1 p-2">
+      <View className="flex-1 items-center justify-start p-2">
         <TouchableOpacity
           onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_PLAY)}
           activeOpacity={0.7}
@@ -92,7 +92,7 @@ const HomeScreen = () => {
             style={{ paddingVertical: 4, paddingHorizontal: 0 }}
           >
             <Marquee spacing={20} speed={1}>
-              <Typography variant="subtitle2" color={colors.text}>{MESSAGES.WHATS_APP_TEXT}</Typography>
+              <Typography variant="subtitle2" color={colors.red}>{MESSAGES.WHATS_APP_TEXT}</Typography>
             </Marquee>
           </Box>
         </TouchableOpacity>
@@ -103,12 +103,9 @@ const HomeScreen = () => {
         >
           <Box
             bgColor={colors.primary}
-            padding={0}
-            style={{ paddingVertical: 4, paddingHorizontal: 0, marginTop: 10 }}
+            style={{ paddingVertical: 4, paddingHorizontal: 7, marginVertical: 10 }}
           >
-            <Marquee spacing={20} speed={1}>
               <Typography variant="subtitle2" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
-            </Marquee>
           </Box>
         </TouchableOpacity>
         <SharedCalendar className="w-full" />

@@ -11,6 +11,7 @@ export const THEME_COLORS = {
     tabBarBg: '#FFF6E0',
     activeIcon: '#f5bf03',
     inactiveIcon: '#FFD700',
+    red:'red'
   },
   [THEME_TYPE.SILVER]: {
     light: '#F5F5F5',
@@ -22,5 +23,6 @@ export const THEME_COLORS = {
     tabBarBg: '#F5F5F5',
     activeIcon: '#A9A9A9',
     inactiveIcon: '#C0C0C0',
+    red:'red'
   }
 };

@@ -50,6 +50,11 @@ const TableList: React.FC<TableListProps> = ({
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
   const [containerWidth, setContainerWidth] = useState(Dimensions.get('window').width);
+  const [internalData, setInternalData] = useState<TableData[]>([]);
+
+  useEffect(() => {
+  setInternalData(data);
+}, [data]);
   
   const [sortConfig, setSortConfig] = useState<{
     key: string;
@@ -57,38 +62,42 @@ const TableList: React.FC<TableListProps> = ({
   }>({ key: '', direction: null });
 
   const handleSort = (columnId: string) => {
-    let direction: SortDirection = 'asc';
-    
-    if (sortConfig.key === columnId) {
-      if (sortConfig.direction === 'asc') {
-        direction = 'desc';
-      } else if (sortConfig.direction === 'desc') {
-        direction = null;
-      }
-    }
-    
-    setSortConfig({ key: columnId, direction });
-  };
+  let direction: SortDirection = 'asc';
 
-  const sortedData = useMemo(() => {
-    if (!Array.isArray(data) || data.length === 0) {
-      return [];
+  if (sortConfig.key === columnId) {
+    if (sortConfig.direction === 'asc') {
+      direction = 'desc';
+    } else if (sortConfig.direction === 'desc') {
+      direction = null;
     }
-    
-    if (!sortConfig.direction) {
-      return data;
+  }
+
+  setSortConfig({ key: columnId, direction });
+
+  if (!direction) {
+    setInternalData(data); // Reset to original
+    return;
+  }
+
+  const sorted = [...internalData].sort((a, b) => {
+    const aValue = a[columnId];
+    const bValue = b[columnId];
+
+    // Custom logic for time string comparison if needed
+    if (columnId === 'time') {
+      const parseTime = (t: string) => new Date(`1970-01-01T${t.replace(/ /, '')}`);
+      return direction === 'asc'
+        ? parseTime(aValue) - parseTime(bValue)
+        : parseTime(bValue) - parseTime(aValue);
     }
 
-    return [...data].sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
-  }, [data, sortConfig]);
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  setInternalData(sorted);
+};
 
   const getSortIcon = (columnId: string) => {
     if (sortConfig.key !== columnId) {
@@ -178,7 +187,7 @@ const TableList: React.FC<TableListProps> = ({
                 { width: getColumnWidth(column) },
                 colIndex === 0 ? { paddingLeft: 12 } : {}
               ]}
-              onPress={() => column.sortable && handleSort(column.id)}
+              onPress={() => column.sortable && handleSort("id")} // sorting based on id
               disabled={!column.sortable}
             >
               <View style={styles.headerContent}>
@@ -197,9 +206,9 @@ const TableList: React.FC<TableListProps> = ({
             </TouchableOpacity>
           ))}
         </View>
-        {sortedData.length > 0 ? (
+        {internalData?.length > 0 ? (
           <FlatList
-            data={sortedData}
+            data={internalData}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
             onEndReached={onEndReached}
