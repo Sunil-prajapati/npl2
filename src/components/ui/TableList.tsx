@@ -68,28 +68,27 @@ const TableList: React.FC<TableListProps> = ({
     if (sortConfig.direction === 'asc') {
       direction = 'desc';
     } else if (sortConfig.direction === 'desc') {
-      direction = null;
+      direction = 'asc';
     }
   }
 
   setSortConfig({ key: columnId, direction });
 
   if (!direction) {
-    setInternalData(data); // Reset to original
+    setInternalData(data);
     return;
   }
-
   const sorted = [...internalData].sort((a, b) => {
+    if (columnId === 'time') {
+      const aId = a.id;
+      const bId = b.id;
+      return direction === 'asc' ? 
+        (aId < bId ? -1 : aId > bId ? 1 : 0) :
+        (bId < aId ? -1 : bId > aId ? 1 : 0);
+    }
+
     const aValue = a[columnId];
     const bValue = b[columnId];
-
-    // Custom logic for time string comparison if needed
-    if (columnId === 'time') {
-      const parseTime = (t: string) => new Date(`1970-01-01T${t.replace(/ /, '')}`);
-      return direction === 'asc'
-        ? parseTime(aValue) - parseTime(bValue)
-        : parseTime(bValue) - parseTime(aValue);
-    }
 
     if (aValue < bValue) return direction === 'asc' ? -1 : 1;
     if (aValue > bValue) return direction === 'asc' ? 1 : -1;
@@ -187,7 +186,7 @@ const TableList: React.FC<TableListProps> = ({
                 { width: getColumnWidth(column) },
                 colIndex === 0 ? { paddingLeft: 12 } : {}
               ]}
-              onPress={() => column.sortable && handleSort("id")} // sorting based on id
+              onPress={() => column.sortable && handleSort(column.id)} // sorting based on clicked column
               disabled={!column.sortable}
             >
               <View style={styles.headerContent}>
