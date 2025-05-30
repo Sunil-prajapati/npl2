@@ -2958,16 +2958,17 @@ export const API_CODE = {
 }
 
 export const MOBILE_NUMBER = {
-   FIRST:'+916284818131'
+   FIRST:'+918874119626'
 };
 
 export const MESSAGES = {
     WHATS_APP_TEXT:'जरुरी सूचना: * हैक किए गए एनपीएल से सावधान रहें! एनपीएल गोल्ड का नया संस्करण डाउनलोड करें! *',
+    DISCOUNT_TEXT: `NPL KI GAME DISCOUNT KE SATH WHATSAPP PER KHELNA CHAHTE HAI TO YAHA CLICK KARE`,
     URDU_TEXT:`NEPAL KI NUMBER KI PREDECTION LENE KE LIYE YAHA CLICK KARE ${MOBILE_NUMBER.FIRST}`,
     DATA_NOT_FOUND:'No Data Entry',
 }
 
 export const WHATS_APP_MESSAGES = {
-    WANT_TO_PLAY:'AGAR AAP NPL KI GAME DISCOUNT KE SATH WHATSAPP PAR KHELANA CHAHTE HAI TO YAHA PAR CLICK KARE',
-    WANT_TO_KNOW:'AGAR AAP NPL KI GAME KI INFORMATION CHAHTE HAI TO YAHA PAR CLICK KARE'
+    WANT_TO_PLAY:'Hello! NPL Gold, Gmae khelna hai',
+    WANT_TO_KNOW:'Hello! Nepla ki number ki predection'
 } 

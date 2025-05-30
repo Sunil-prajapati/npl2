@@ -23,10 +23,10 @@ const ProfileScreen = () => {
   const { selectedDate } = useDateContext();
   const screenHeight = Dimensions.get('window').height;
   const tableHeight = screenHeight * 0.67;
-  
+
   const fetchData = async () => {
     let date;
-    if(selectedDate && !isSameAsCurrentDate(selectedDate)){
+    if (selectedDate && !isSameAsCurrentDate(selectedDate)) {
       date = selectedDate;
     } else {
       date = null;
@@ -39,14 +39,15 @@ const ProfileScreen = () => {
   }, [selectedDate]);
 
   const tableColumns: TableColumn[] = [
-    { id: 'time', label: 'Time', sortable: true, widthRem: 6,
+    {
+      id: 'time', label: 'Time', sortable: true, widthRem: 6,
       renderCell: (value) => (
         <Typography variant="body2" color={colors.text} style={{ fontWeight: 'bold' }}>
           {value}
         </Typography>
       ),
     },
-    { 
+    {
       id: 'aa',
       label: 'AA',
       renderCell: (value) => (
@@ -55,8 +56,8 @@ const ProfileScreen = () => {
         </Typography>
       ),
       headerTextColor: TABLE_COLUMNS_COLOR.A
-    },    
-    { 
+    },
+    {
       id: 'bb',
       label: 'BB',
       renderCell: (value) => (
@@ -66,7 +67,7 @@ const ProfileScreen = () => {
       ),
       headerTextColor: TABLE_COLUMNS_COLOR.B
     },
-    { 
+    {
       id: 'cc',
       label: 'CC',
       renderCell: (value) => (
@@ -81,19 +82,25 @@ const ProfileScreen = () => {
   return (
     <ScreenWrapper>
       <View className="flex-1 items-center justify-start gap-1 p-2">
-        <TouchableOpacity 
-          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_PLAY)} 
+        <Box
+          bgColor={colors.primary}
+          padding={0}
+          style={{ paddingVertical: 4, paddingHorizontal: 0 }}
+        >
+          <Marquee spacing={20} speed={1}>
+            <Typography variant="subtitle2" color={colors.red}>{MESSAGES.WHATS_APP_TEXT}</Typography>
+          </Marquee>
+        </Box>
+        <TouchableOpacity
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_PLAY)}
           activeOpacity={0.7}
           style={{ width: '100%' }}
         >
           <Box
             bgColor={colors.primary}
-            padding={0}
-            style={{ paddingVertical: 4, paddingHorizontal: 0 }}
+            style={{ paddingVertical: 4, paddingHorizontal: 7, marginTop: 10 }}
           >
-            <Marquee spacing={20} speed={1}>
-              <Typography variant="subtitle2" color={colors.red}>{MESSAGES.WHATS_APP_TEXT}</Typography>
-            </Marquee>
+            <Typography variant="subtitle2" color={colors.text}>{MESSAGES.DISCOUNT_TEXT}</Typography>
           </Box>
         </TouchableOpacity>
         <TouchableOpacity
@@ -105,27 +112,27 @@ const ProfileScreen = () => {
             bgColor={colors.primary}
             style={{ paddingVertical: 4, paddingHorizontal: 7, marginVertical: 10 }}
           >
-              <Typography variant="subtitle2" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
+            <Typography variant="subtitle2" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
           </Box>
         </TouchableOpacity>
-       
-          <SharedCalendar className="w-full" />
-      
-          {error ? (
-            <ErrorDisplay 
-              error={error}
-              onRetry={fetchData}
-              height={tableHeight}
-            />
-          ) : (
-            <TableList
-              columns={tableColumns}
-              data={data}
-              className="w-full"
-              height={tableHeight}
-              loading={loading}
-            />
-          )}
+
+        <SharedCalendar className="w-full" />
+
+        {error ? (
+          <ErrorDisplay
+            error={error}
+            onRetry={fetchData}
+            height={tableHeight}
+          />
+        ) : (
+          <TableList
+            columns={tableColumns}
+            data={data}
+            className="w-full"
+            height={tableHeight}
+            loading={loading}
+          />
+        )}
       </View>
     </ScreenWrapper>
   );

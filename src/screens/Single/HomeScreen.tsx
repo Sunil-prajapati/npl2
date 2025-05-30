@@ -81,11 +81,6 @@ const HomeScreen = () => {
   return (
     <ScreenWrapper>
       <View className="flex-1 items-center justify-start p-2">
-        <TouchableOpacity
-          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_PLAY)}
-          activeOpacity={0.7}
-          style={{ width: '100%' }}
-        >
           <Box
             bgColor={colors.primary}
             padding={0}
@@ -94,6 +89,17 @@ const HomeScreen = () => {
             <Marquee spacing={20} speed={1}>
               <Typography variant="subtitle2" color={colors.red}>{MESSAGES.WHATS_APP_TEXT}</Typography>
             </Marquee>
+          </Box>
+        <TouchableOpacity
+          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_PLAY)}
+          activeOpacity={0.7}
+          style={{ width: '100%' }}
+        >
+          <Box
+            bgColor={colors.primary}
+            style={{ paddingVertical: 4, paddingHorizontal: 7, marginTop: 10 }}
+          >
+              <Typography variant="caption" color={colors.text}>{MESSAGES.DISCOUNT_TEXT}</Typography>
           </Box>
         </TouchableOpacity>
         <TouchableOpacity
@@ -105,7 +111,7 @@ const HomeScreen = () => {
             bgColor={colors.primary}
             style={{ paddingVertical: 4, paddingHorizontal: 7, marginVertical: 10 }}
           >
-              <Typography variant="subtitle2" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
+              <Typography variant="caption" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
           </Box>
         </TouchableOpacity>
         <SharedCalendar className="w-full" />
