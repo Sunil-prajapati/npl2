@@ -17,7 +17,7 @@ if (__DEV__) {
 }
 const App: React.FC = () => {
   useEffect(() => {
-    SplashScreen.hide();
+    // SplashScreen.hide();
     
     // Foreground message handler
     const unsubscribe = messaging().onMessage(async remoteMessage => {

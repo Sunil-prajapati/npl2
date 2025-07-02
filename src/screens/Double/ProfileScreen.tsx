@@ -100,7 +100,7 @@ const ProfileScreen = () => {
             bgColor={colors.primary}
             style={{ paddingVertical: 4, paddingHorizontal: 7, marginTop: 10 }}
           >
-            <Typography variant="subtitle2" color={colors.text}>{MESSAGES.DISCOUNT_TEXT}</Typography>
+              <Typography variant="caption" color={colors.text}>{MESSAGES.DISCOUNT_TEXT}</Typography>
           </Box>
         </TouchableOpacity>
         <TouchableOpacity
@@ -112,7 +112,7 @@ const ProfileScreen = () => {
             bgColor={colors.primary}
             style={{ paddingVertical: 4, paddingHorizontal: 7, marginVertical: 10 }}
           >
-            <Typography variant="subtitle2" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
+              <Typography variant="caption" color={colors.text}>{MESSAGES.URDU_TEXT}</Typography>
           </Box>
         </TouchableOpacity>
 
