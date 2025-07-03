@@ -15,14 +15,16 @@ import { Marquee } from '@animatereactnative/marquee';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { openWhatsApp } from '../../utils/whatsapp';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const HomeScreen = () => {
   const { theme } = useTheme();
+  const tabBarHeight = useBottomTabBarHeight();
   const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
   const colors = THEME_COLORS[theme];
   const { selectedDate } = useDateContext();
   const screenHeight = Dimensions.get('window').height;
-  const tableHeight = screenHeight * 0.67;
+  const tableHeight = (screenHeight * 0.55) - tabBarHeight;
 
   const fetchData = () => {
     let date;

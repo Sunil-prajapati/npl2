@@ -15,14 +15,16 @@ import ErrorDisplay from '../../components/ui/ErrorDisplay';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { openWhatsApp } from '../../utils/whatsapp';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const ProfileScreen = () => {
   const { theme } = useTheme();
+  const tabBarHeight = useBottomTabBarHeight();
   const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_DOUBLE_DATA);
   const colors = THEME_COLORS[theme];
   const { selectedDate } = useDateContext();
   const screenHeight = Dimensions.get('window').height;
-  const tableHeight = screenHeight * 0.67;
+    const tableHeight = (screenHeight * 0.55) - tabBarHeight;
 
   const fetchData = async () => {
     let date;
@@ -81,7 +83,7 @@ const ProfileScreen = () => {
 
   return (
     <ScreenWrapper>
-      <View className="flex-1 items-center justify-start gap-1 p-2">
+      <View className="flex-1 items-center justify-start p-2">
         <Box
           bgColor={colors.primary}
           padding={0}
