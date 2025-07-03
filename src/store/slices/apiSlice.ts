@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 interface ApiState {
   singleData: any;
   doubleData: any;
+  report:any,
   loading: boolean;
   error: string | null;
 }
@@ -14,6 +15,7 @@ interface ApiState {
 const initialState: ApiState = {
   singleData: null,
   doubleData: null,
+  report:null,
   loading: false,
   error: null,
 };
@@ -49,7 +51,7 @@ export const postData = createAsyncThunk(
   async ({ endpoint, data, requiresAuth = true }: PostRequestParams, { rejectWithValue }) => {
     try {
       const response = await ApiService.post<any>(endpoint, data, requiresAuth);
-      return { endpoint, data: response.data };
+      return { endpoint, data: response.report ? response.report : response.data };
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to post data');
     }
@@ -64,6 +66,7 @@ const apiSlice = createSlice({
     clearApiState: (state) => {
       state.singleData = null;
       state.doubleData = null;
+      state.report = null;
       state.error = null;
     },
   },
@@ -80,6 +83,9 @@ const apiSlice = createSlice({
           state.singleData = action.payload.data;
         } else if (action.payload.endpoint === API_ENDPOINTS.GET_DOUBLE_DATA) {
           state.doubleData = action.payload.data;
+        }
+         else if (action.payload.endpoint === API_ENDPOINTS.MONTH_REPORT) {
+          state.report = action.payload.data;
         }
       })
       .addCase(fetchData.rejected, (state, action) => {
@@ -99,6 +105,9 @@ const apiSlice = createSlice({
           state.singleData = action.payload.data;
         } else if (action.payload.endpoint === API_ENDPOINTS.GET_DOUBLE_DATA) {
           state.doubleData = action.payload.data;
+        }
+        else if (action.payload.endpoint === API_ENDPOINTS.MONTH_REPORT) {
+          state.report = action.payload.data;
         }
       })
       .addCase(postData.rejected, (state, action) => {

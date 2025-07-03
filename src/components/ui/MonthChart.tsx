@@ -56,7 +56,7 @@ const MonthChart: React.FC<MonthChartProps> = ({
   }, [month]);
 
   const getColorForValue = (value: number) => {
-    switch (value) {
+    switch (parseInt(value.toString()[0])) {
       case 0: return '#f5f5f5'; // Light gray for 0
       case 1: return '#FF0000'; // Red for 1
       case 2: return '#00FF00'; // Green for 2

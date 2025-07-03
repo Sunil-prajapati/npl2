@@ -14,6 +14,8 @@ const useApi = (endpoint?: string) => {
       return apiState.singleData;
     } else if (endpoint === API_ENDPOINTS.GET_DOUBLE_DATA) {
       return apiState.doubleData;
+    } else if(endpoint === API_ENDPOINTS.MONTH_REPORT){
+      return apiState.report;
     }
     
     return null;

@@ -7,14 +7,13 @@ import {THEME_COLORS} from '../constants/ThemeColors';
 import CustomDropdown from '../components/ui/CustomDropdown';
 import useApi from '../hooks/useApi';
 import {API_ENDPOINTS} from '../constants/ApiEndPoints';
-import { monthData } from '../constants/enum';
 
 const MonthlyChartScreen = () => {
   const {theme} = useTheme();
   const colors = THEME_COLORS[theme];
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedOption, setSelectedOption] = useState('');
-  const {sendData} = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
+  const [selectedOption, setSelectedOption] = useState('A');
+  const {sendData,data} = useApi(API_ENDPOINTS.MONTH_REPORT);
 
   const dropdownOptions = [
     { key: 'A', value: 'A' },
@@ -25,13 +24,14 @@ const MonthlyChartScreen = () => {
   useEffect(() => {
     setSelectedOption('A');
     const formattedMonth = formatYearMonth(currentMonth);
-    // sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: formattedMonth }, false);
+    sendData(API_ENDPOINTS.MONTH_REPORT, { date: formattedMonth,type :selectedOption }, false);
   }, []);
 
   const formatYearMonth = (date: Date): string => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    return `${year}-${month}`;
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   const handleOptionSelect = (key: string, value: string) => {
@@ -61,7 +61,7 @@ const MonthlyChartScreen = () => {
         />
         
         <View style={styles.chartContainer}>
-          <MonthChart month={currentMonth} className="w-full" data={monthData} />
+          <MonthChart month={currentMonth} className="w-full" data={data} />
         </View>
       </View>
     </ScreenWrapper>
