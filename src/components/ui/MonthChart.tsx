@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useRef, useCallback} from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import {useTheme} from '../../context/ThemeContext';
 import {THEME_COLORS} from '../../constants/ThemeColors';
@@ -18,6 +18,15 @@ const MonthChart: React.FC<MonthChartProps> = ({
   const {theme} = useTheme();
   const colors = THEME_COLORS[theme];
 
+  // Refs for scroll synchronization
+  const dateHeaderScrollRef = useRef<ScrollView>(null);
+  const mainContentHorizontalScrollRef = useRef<ScrollView>(null);
+  const timeColumnScrollRef = useRef<ScrollView>(null);
+  const mainContentVerticalScrollRef = useRef<ScrollView>(null);
+  
+  // Track scroll state to prevent feedback loops
+  const isScrollingHorizontally = useRef(false);
+  const isScrollingVertically = useRef(false);
 
   const chartData = data;
   const timeSlots = useMemo(() => {
@@ -76,6 +85,45 @@ const MonthChart: React.FC<MonthChartProps> = ({
     const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     return chartData?.[dateStr]?.[timeSlot] ?? 0;
   };
+
+  // Horizontal scroll synchronization
+  const handleHorizontalScroll = useCallback((event: any, source: 'header' | 'main') => {
+    if (isScrollingHorizontally.current) return;
+    
+    const offsetX = event.nativeEvent.contentOffset.x;
+    isScrollingHorizontally.current = true;
+    
+    if (source === 'header') {
+      mainContentHorizontalScrollRef.current?.scrollTo({x: offsetX, animated: false});
+    } else if (source === 'main') {
+      dateHeaderScrollRef.current?.scrollTo({x: offsetX, animated: false});
+    }
+    
+    // Reset flag after a short delay
+    setTimeout(() => {
+      isScrollingHorizontally.current = false;
+    }, 50);
+  }, []);
+
+  // Vertical scroll synchronization
+  const handleVerticalScroll = useCallback((event: any, source: 'time' | 'main') => {
+    if (isScrollingVertically.current) return;
+    
+    const offsetY = event.nativeEvent.contentOffset.y;
+    isScrollingVertically.current = true;
+    
+    if (source === 'time') {
+      mainContentVerticalScrollRef.current?.scrollTo({y: offsetY, animated: false});
+    } else if (source === 'main') {
+      timeColumnScrollRef.current?.scrollTo({y: offsetY, animated: false});
+    }
+    
+    // Reset flag after a short delay
+    setTimeout(() => {
+      isScrollingVertically.current = false;
+    }, 50);
+  }, []);
+
   return (
     <View className={`${className}`} style={styles.container}>
       {/* Fixed top-left corner cell */}
@@ -87,9 +135,12 @@ const MonthChart: React.FC<MonthChartProps> = ({
       
       {/* Fixed date header row (sticky top) */}
       <ScrollView 
+        ref={dateHeaderScrollRef}
         horizontal 
         showsHorizontalScrollIndicator={false}
         style={styles.dateHeaderContainer}
+        onScroll={(event) => handleHorizontalScroll(event, 'header')}
+        scrollEventThrottle={32}
       >
         <View style={styles.headerRow}>
           {dates.map((date, index) => (
@@ -107,7 +158,13 @@ const MonthChart: React.FC<MonthChartProps> = ({
       
       {/* Fixed time column (sticky left) */}
       <View style={styles.timeColumnContainer}>
-        <ScrollView vertical showsVerticalScrollIndicator={false}>
+        <ScrollView 
+          ref={timeColumnScrollRef}
+          vertical 
+          showsVerticalScrollIndicator={false}
+          onScroll={(event) => handleVerticalScroll(event, 'time')}
+          scrollEventThrottle={32}
+        >
           <View>
             {timeSlots.map((timeSlot, timeIndex) => (
               <View key={`time-${timeIndex}`} style={styles.timeCell}>
@@ -122,11 +179,20 @@ const MonthChart: React.FC<MonthChartProps> = ({
       
       {/* Main scrollable content area */}
       <ScrollView 
+        ref={mainContentHorizontalScrollRef}
         horizontal 
         showsHorizontalScrollIndicator={false}
         style={styles.mainContentContainer}
+        onScroll={(event) => handleHorizontalScroll(event, 'main')}
+        scrollEventThrottle={32}
       >
-        <ScrollView vertical showsVerticalScrollIndicator={false}>
+        <ScrollView 
+          ref={mainContentVerticalScrollRef}
+          vertical 
+          showsVerticalScrollIndicator={false}
+          onScroll={(event) => handleVerticalScroll(event, 'main')}
+          scrollEventThrottle={32}
+        >
           <View>
             {timeSlots.map((timeSlot, timeIndex) => (
               <View key={`time-${timeIndex}`} style={styles.row}>
@@ -209,9 +275,11 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     height: 50,
+    alignItems: 'stretch',
   },
   dateHeaderCell: {
     width: 50,
+    height: 50,
     padding: 4,
     justifyContent: 'center',
     alignItems: 'center',
@@ -220,6 +288,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    height: 40,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
@@ -228,6 +297,7 @@ const styles = StyleSheet.create({
     height: 40,
     padding: 8,
     justifyContent: 'center',
+    alignItems: 'flex-start',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
@@ -237,10 +307,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRightWidth: 1,
+    borderBottomWidth: 1,
     borderRightColor: '#ddd',
+    borderBottomColor: '#ddd',
   },
   cellText: {
     fontWeight: 'bold',
+    fontSize: 12,
   },
 });
 
