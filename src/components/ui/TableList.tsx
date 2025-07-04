@@ -162,7 +162,7 @@ const TableList: React.FC<TableListProps> = ({
   return (
     <View 
       className={`rounded-lg overflow-hidden ${className}`} 
-      style={[styles.container, height ? { height } : {}]}
+      style={[styles.container, {paddingBottom:"55%"}]}
       onLayout={(event) => {
         const { width } = event.nativeEvent.layout;
         setContainerWidth(width);
@@ -212,7 +212,7 @@ const TableList: React.FC<TableListProps> = ({
             keyExtractor={(item) => item.id.toString()}
             onEndReached={onEndReached}
             onEndReachedThreshold={onEndReachedThreshold}
-            style={{ maxHeight: height ? height - (title ? 90 : 50) : undefined }}
+            // style={{ maxHeight: height ? height - (title ? 90 : 1000) : undefined }}
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
             nestedScrollEnabled={true}

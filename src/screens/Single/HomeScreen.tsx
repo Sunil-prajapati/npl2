@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TouchableOpacity, Dimensions } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
 import SharedCalendar from '../../components/SharedCalendar';
@@ -14,17 +14,13 @@ import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { openWhatsApp } from '../../utils/whatsapp';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import MarqueeBox from '../../components/ui/MarqueeBox';
 
 const HomeScreen = () => {
   const { theme } = useTheme();
-  const tabBarHeight = useBottomTabBarHeight();
   const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
   const colors = THEME_COLORS[theme];
   const { selectedDate } = useDateContext();
-  const screenHeight = Dimensions.get('window').height;
-  const tableHeight = (screenHeight * 0.6) - tabBarHeight;
 
   const fetchData = () => {
     let date;
@@ -100,7 +96,6 @@ const HomeScreen = () => {
         {error ? (
           <ErrorDisplay 
             error={error}
-            height={tableHeight}
             onRetry={fetchData}
           />
         ) : (
@@ -108,7 +103,6 @@ const HomeScreen = () => {
             columns={tableColumns}
             data={data}
             className="w-full"
-            height={tableHeight}
             loading={loading}
           />
         )}

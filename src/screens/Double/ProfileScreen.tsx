@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Alert, TouchableOpacity, Linking, Dimensions } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
 import SharedCalendar from '../../components/SharedCalendar';
@@ -9,23 +9,18 @@ import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../../components/Typography';
 import { MESSAGES, MOBILE_NUMBER, TABLE_COLUMNS_COLOR, WHATS_APP_MESSAGES } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
-import { Marquee } from '@animatereactnative/marquee';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import ErrorDisplay from '../../components/ui/ErrorDisplay';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { openWhatsApp } from '../../utils/whatsapp';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import MarqueeBox from '../../components/ui/MarqueeBox';
 
 const ProfileScreen = () => {
   const { theme } = useTheme();
-  const tabBarHeight = useBottomTabBarHeight();
   const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_DOUBLE_DATA);
   const colors = THEME_COLORS[theme];
   const { selectedDate } = useDateContext();
-  const screenHeight = Dimensions.get('window').height;
-  const tableHeight = (screenHeight * 0.6) - tabBarHeight;
 
   const fetchData = async () => {
     let date;
@@ -103,14 +98,12 @@ const ProfileScreen = () => {
           <ErrorDisplay
             error={error}
             onRetry={fetchData}
-            height={tableHeight}
           />
         ) : (
           <TableList
             columns={tableColumns}
             data={data}
             className="w-full"
-            height={tableHeight}
             loading={loading}
           />
         )}
