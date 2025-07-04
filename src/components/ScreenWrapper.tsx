@@ -28,8 +28,8 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
         barStyle={barStyle} 
         backgroundColor={theme === THEME_TYPE.GOLD ? colors.light : colors.light} 
       />
-      <SafeAreaView className={`flex-1 ${bgColor}`}>
-        <View className={`flex-1 ${withPadding ? 'px-4' : ''}`}>
+      <SafeAreaView className={`flex-1 pb-4 ${bgColor}`}>
+        <View className={` ${withPadding ? 'px-4' : ''}`}>
           {children}
         </View>
       </SafeAreaView>

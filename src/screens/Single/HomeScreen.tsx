@@ -78,7 +78,7 @@ const HomeScreen = () => {
   ];
   return (
     <ScreenWrapper>
-      <View className="flex-1 items-center justify-start p-2">
+      <View className="items-center justify-start p-2">
         <MarqueeBox/>
         <TouchableOpacity
           onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_KNOW)}

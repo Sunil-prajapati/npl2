@@ -62,7 +62,6 @@ const MonthlyChartScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     gap: 4,
   },
   dropdown: {
@@ -80,7 +79,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   chartContainer: {
-    flex: 1,
   },
   legendBox: {
     padding: 12,

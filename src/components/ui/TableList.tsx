@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Dimensions, FlatList } from 'react-native';
 import Typography from '../Typography';
 import { useTheme } from '../../context/ThemeContext';
@@ -161,8 +161,8 @@ const TableList: React.FC<TableListProps> = ({
 
   return (
     <View 
-      className={`rounded-lg overflow-hidden ${className}`} 
-      style={[styles.container, {paddingBottom:"55%"}]}
+      className={`rounded-lg ${className}`} 
+      style={[styles.container]}
       onLayout={(event) => {
         const { width } = event.nativeEvent.layout;
         setContainerWidth(width);
@@ -212,7 +212,7 @@ const TableList: React.FC<TableListProps> = ({
             keyExtractor={(item) => item.id.toString()}
             onEndReached={onEndReached}
             onEndReachedThreshold={onEndReachedThreshold}
-            // style={{ maxHeight: height ? height - (title ? 90 : 1000) : undefined }}
+            style={{ maxHeight: "100%" }}
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
             nestedScrollEnabled={true}
@@ -241,15 +241,12 @@ const TableList: React.FC<TableListProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 8,
-    overflow: 'hidden',
-    borderWidth: 1,
     borderColor: '#ddd',
     width: '100%',
+    maxHeight:'77%',
   },
   row: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
   headerRow: {
