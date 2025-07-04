@@ -11,7 +11,7 @@ import {API_ENDPOINTS} from '../constants/ApiEndPoints';
 const MonthlyChartScreen = () => {
   const {theme} = useTheme();
   const colors = THEME_COLORS[theme];
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState('A');
   const {sendData,data} = useApi(API_ENDPOINTS.MONTH_REPORT);
 
@@ -22,7 +22,6 @@ const MonthlyChartScreen = () => {
   ];
 
   useEffect(() => {
-    setSelectedOption('A');
     const formattedMonth = formatYearMonth(currentMonth);
     sendData(API_ENDPOINTS.MONTH_REPORT, { date: formattedMonth,type :selectedOption }, false);
   }, []);
@@ -37,15 +36,8 @@ const MonthlyChartScreen = () => {
   const handleOptionSelect = (key: string, value: string) => {
     setSelectedOption(key);
     const newDate = new Date();
-    
-    if (key === 'A') {
-      newDate.setMonth(0);
-    } else if (key === 'B') {
-      newDate.setMonth(4);
-    } else if (key === 'C') {
-      newDate.setMonth(8);
-    }
-    setCurrentMonth(newDate);
+    const formattedMonth = formatYearMonth(newDate);
+    sendData(API_ENDPOINTS.MONTH_REPORT, { date: formattedMonth,type :value }, false);
   };
 
   return (

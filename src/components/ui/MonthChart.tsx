@@ -7,7 +7,7 @@ import Typography from '../Typography';
 interface MonthChartProps {
   month?: Date;
   className?: string;
-  data?: Record<string, Record<string, number>>; // Added data prop
+  data?: Record<string, Record<string, number>>;
 }
 
 const MonthChart: React.FC<MonthChartProps> = ({
@@ -74,7 +74,7 @@ const MonthChart: React.FC<MonthChartProps> = ({
   // Replace the random data generation with data lookup
   const getDataValue = (date: Date, timeSlot: string): number => {
     const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-    return chartData[dateStr]?.[timeSlot] ?? 0;
+    return chartData?.[dateStr]?.[timeSlot] ?? 0;
   };
   return (
     <View className={`${className}`} style={styles.container}>
@@ -95,10 +95,10 @@ const MonthChart: React.FC<MonthChartProps> = ({
           {dates.map((date, index) => (
             <View key={`date-${index}`} style={styles.dateHeaderCell}>
               <Typography variant="caption" color={colors.text}>
-                {date.getDate()}
+                {date?.getDate()}
               </Typography>
               <Typography variant="caption" color={colors.text}>
-                {date.toLocaleString('default', {weekday: 'short'})}
+                {date?.toLocaleString('default', {weekday: 'short'})}
               </Typography>
             </View>
           ))}

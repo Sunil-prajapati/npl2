@@ -11,11 +11,11 @@ import Typography from '../../components/Typography';
 import { MESSAGES, MOBILE_NUMBER, TABLE_COLUMNS_COLOR, WHATS_APP_MESSAGES } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
-import { Marquee } from '@animatereactnative/marquee';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { openWhatsApp } from '../../utils/whatsapp';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import MarqueeBox from '../../components/ui/MarqueeBox';
 
 const HomeScreen = () => {
   const { theme } = useTheme();
@@ -24,7 +24,7 @@ const HomeScreen = () => {
   const colors = THEME_COLORS[theme];
   const { selectedDate } = useDateContext();
   const screenHeight = Dimensions.get('window').height;
-  const tableHeight = (screenHeight * 0.55) - tabBarHeight;
+  const tableHeight = (screenHeight * 0.6) - tabBarHeight;
 
   const fetchData = () => {
     let date;
@@ -83,27 +83,7 @@ const HomeScreen = () => {
   return (
     <ScreenWrapper>
       <View className="flex-1 items-center justify-start p-2">
-          <Box
-            bgColor={colors.primary}
-            padding={0}
-            style={{ paddingVertical: 4, paddingHorizontal: 0 }}
-          >
-            <Marquee spacing={20} speed={1}>
-              <Typography variant="subtitle2" color={colors.red}>{MESSAGES.WHATS_APP_TEXT}</Typography>
-            </Marquee>
-          </Box>
-        <TouchableOpacity
-          onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_PLAY)}
-          activeOpacity={0.7}
-          style={{ width: '100%' }}
-        >
-          <Box
-            bgColor={colors.primary}
-            style={{ paddingVertical: 4, paddingHorizontal: 7, marginTop: 10 }}
-          >
-              <Typography variant="caption" color={colors.text}>{MESSAGES.DISCOUNT_TEXT}</Typography>
-          </Box>
-        </TouchableOpacity>
+        <MarqueeBox/>
         <TouchableOpacity
           onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_KNOW)}
           activeOpacity={0.7}

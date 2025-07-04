@@ -19,9 +19,9 @@ export const MOBILE_NUMBER = {
 };
 
 export const MESSAGES = {
-    WHATS_APP_TEXT:'जरुरी सूचना: * हैक किए गए एनपीएल से सावधान रहें! एनपीएल गोल्ड का नया संस्करण डाउनलोड करें! *',
+    WHATS_APP_TEXT:'जरुरी सूचना: * हैक किए गए एनपीएल से सावधान रहें! NPL Gold का नया संस्करण डाउनलोड करें! *',
     DISCOUNT_TEXT: `NPL KI GAME DISCOUNT KE SATH WHATSAPP PER KHELNA CHAHTE HAI TO YAHA CLICK KARE`,
-    URDU_TEXT:`NEPAL KI NUMBER KI PREDECTION LENE KE LIYE YAHA CLICK KARE ${MOBILE_NUMBER.FIRST}`,
+    URDU_TEXT:`NEPAL KI NUMBER KI PREDECTION LENE KE LIYE YAHA CLICK KARE`,
     DATA_NOT_FOUND:'No Data Entry',
 }
 
