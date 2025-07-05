@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Dimensions, FlatList } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Typography from '../Typography';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
@@ -32,6 +33,8 @@ interface TableListProps {
   height?: number;
   title?: string;
   loading?: boolean;
+  autoHeight?: boolean;
+  heightOffset?: number;
 }
 
 type SortDirection = 'asc' | 'desc' | null;
@@ -45,58 +48,73 @@ const TableList: React.FC<TableListProps> = ({
   height,
   title,
   loading = false,
+  autoHeight = false,
+  heightOffset = 0,
 }) => {
 
   const { theme } = useTheme();
   const colors = THEME_COLORS[theme];
+  const insets = useSafeAreaInsets();
   const [containerWidth, setContainerWidth] = useState(Dimensions.get('window').width);
   const [internalData, setInternalData] = useState<TableData[]>([]);
 
   useEffect(() => {
-  setInternalData(data);
-}, [data]);
+    setInternalData(data);
+  }, [data]);
   
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: SortDirection;
   }>({ key: '', direction: null });
 
+  const getTableHeight = () => {
+    if (height) return height;
+    if (autoHeight) {
+      const screenHeight = Dimensions.get('window').height;
+      const availableHeight = screenHeight - insets.top - insets.bottom;
+      const titleHeight = title ? 90 : 50;
+      return availableHeight - titleHeight - heightOffset;
+    }
+    
+    return undefined;
+  };
+
   const handleSort = (columnId: string) => {
-  let direction: SortDirection = 'asc';
+    let direction: SortDirection = 'asc';
 
-  if (sortConfig.key === columnId) {
-    if (sortConfig.direction === 'asc') {
-      direction = 'desc';
-    } else if (sortConfig.direction === 'desc') {
-      direction = 'asc';
-    }
-  }
-
-  setSortConfig({ key: columnId, direction });
-
-  if (!direction) {
-    setInternalData(data);
-    return;
-  }
-  const sorted = [...internalData].sort((a, b) => {
-    if (columnId === 'time') {
-      const aId = a.id;
-      const bId = b.id;
-      return direction === 'asc' ? 
-        (aId < bId ? -1 : aId > bId ? 1 : 0) :
-        (bId < aId ? -1 : bId > aId ? 1 : 0);
+    if (sortConfig.key === columnId) {
+      if (sortConfig.direction === 'asc') {
+        direction = 'desc';
+      } else if (sortConfig.direction === 'desc') {
+        direction = 'asc';
+      }
     }
 
-    const aValue = a[columnId];
-    const bValue = b[columnId];
+    setSortConfig({ key: columnId, direction });
 
-    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
-    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
+    if (!direction) {
+      setInternalData(data);
+      return;
+    }
+    const sorted = [...internalData].sort((a, b) => {
+      if (columnId === 'time') {
+        const aId = a.id;
+        const bId = b.id;
+        return direction === 'asc' ? 
+          (aId < bId ? -1 : aId > bId ? 1 : 0) :
+          (bId < aId ? -1 : bId > aId ? 1 : 0);
+      }
 
-  setInternalData(sorted);
-};
+      const aValue = a[columnId];
+      const bValue = b[columnId];
+
+      if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+      if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    setInternalData(sorted);
+  };
 
   const getSortIcon = (columnId: string) => {
     if (sortConfig.key !== columnId) {
@@ -159,10 +177,15 @@ const TableList: React.FC<TableListProps> = ({
     </View>
   );
 
+  const calculatedHeight = getTableHeight();
+
   return (
     <View 
       className={`rounded-lg ${className}`} 
-      style={[styles.container]}
+      style={[
+        styles.container,
+        calculatedHeight ? { height: calculatedHeight - 170 } : {}
+      ]}
       onLayout={(event) => {
         const { width } = event.nativeEvent.layout;
         setContainerWidth(width);
@@ -175,7 +198,7 @@ const TableList: React.FC<TableListProps> = ({
           </Typography>
         </View>
       )}
-      <View>
+      <View style={{ flex: 1 }}>
         {/* Header Row */}
         <View style={[styles.row, styles.headerRow, { backgroundColor: colors.dark }]}>
           {columns.map((column, colIndex) => (
@@ -186,7 +209,7 @@ const TableList: React.FC<TableListProps> = ({
                 { width: getColumnWidth(column) },
                 colIndex === 0 ? { paddingLeft: 12 } : {}
               ]}
-              onPress={() => column.sortable && handleSort(column.id)} // sorting based on clicked column
+              onPress={() => column.sortable && handleSort(column.id)}
               disabled={!column.sortable}
             >
               <View style={styles.headerContent}>
@@ -212,7 +235,7 @@ const TableList: React.FC<TableListProps> = ({
             keyExtractor={(item) => item.id.toString()}
             onEndReached={onEndReached}
             onEndReachedThreshold={onEndReachedThreshold}
-            style={{ maxHeight: "100%" }}
+            style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
             nestedScrollEnabled={true}
@@ -220,14 +243,14 @@ const TableList: React.FC<TableListProps> = ({
         ) : loading ? (
           <View style={[
             styles.noDataContainer, 
-            { height: height ? height - (title ? 90 : 50) : 150 }
+            { height: calculatedHeight ? calculatedHeight - (title ? 90 : 50) : 150 }
           ]}>
             <Loader size="small" text="Loading data..." />
           </View>
         ) : (
           <View style={[
             styles.noDataContainer, 
-            { height: height ? height - (title ? 90 : 50) : 150 }
+            { height: calculatedHeight ? calculatedHeight - (title ? 90 : 50) : 150 }
           ]}>
             <Typography variant="body1" color={colors.text}>
               {MESSAGES.DATA_NOT_FOUND}
@@ -243,7 +266,6 @@ const styles = StyleSheet.create({
   container: {
     borderColor: '#ddd',
     width: '100%',
-    maxHeight:'77%',
   },
   row: {
     flexDirection: 'row',
@@ -280,6 +302,3 @@ const styles = StyleSheet.create({
 });
 
 export default TableList;
-
-
-

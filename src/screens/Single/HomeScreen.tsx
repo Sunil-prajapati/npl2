@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity,Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Box from '../../components/Box';
 import SharedCalendar from '../../components/SharedCalendar';
@@ -15,12 +15,18 @@ import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { openWhatsApp } from '../../utils/whatsapp';
 import MarqueeBox from '../../components/ui/MarqueeBox';
+import { useHeaderHeight } from '@react-navigation/elements';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const HomeScreen = () => {
   const { theme } = useTheme();
   const { data, loading, error, sendData } = useApi(API_ENDPOINTS.GET_SINGLE_DATA);
   const colors = THEME_COLORS[theme];
   const { selectedDate } = useDateContext();
+  const headerHeight = useHeaderHeight();
+  const tabBarHeight = useBottomTabBarHeight();
+  const availableHeight = Dimensions.get('window').height - headerHeight - tabBarHeight;
+
 
   const fetchData = () => {
     let date;
@@ -104,6 +110,7 @@ const HomeScreen = () => {
             data={data}
             className="w-full"
             loading={loading}
+            height={availableHeight}
           />
         )}
       </View>
