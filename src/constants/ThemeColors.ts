@@ -2,16 +2,16 @@ import { THEME_TYPE } from './ThemeTypes';
 
 export const THEME_COLORS = {
   [THEME_TYPE.GOLD]: {
-    light: '#FFF6E0',
-    primary: '#FFD700',
-    dark: '#f5bf03',
-    text: '#000000',
-    background: '#FFF6E0',
-    headerBg: '#FFF6E0',
-    tabBarBg: '#FFF6E0',
-    activeIcon: '#f5bf03',
-    inactiveIcon: '#FFD700',
-    red:'red'
+   light: '#FFE4EC',         
+    primary: '#FF69B4',       
+    dark: '#C2185B',         
+    text: '#212121',          
+    background: '#FFE4EC',    
+    headerBg: '#FFE4EC',      
+    tabBarBg: '#FFE4EC',      
+    activeIcon: '#C2185B',    
+    inactiveIcon: '#FF69B4',
+    red: 'red'      
   },
   [THEME_TYPE.SILVER]: {
     light: '#F5F5F5',

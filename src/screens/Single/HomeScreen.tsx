@@ -14,7 +14,6 @@ import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { openWhatsApp } from '../../utils/whatsapp';
-import MarqueeBox from '../../components/ui/MarqueeBox';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
@@ -85,7 +84,6 @@ const HomeScreen = () => {
   return (
     <ScreenWrapper>
       <View className="items-center justify-start p-2">
-        <MarqueeBox/>
         <TouchableOpacity
           onPress={() => openWhatsApp(MOBILE_NUMBER.FIRST, WHATS_APP_MESSAGES.WANT_TO_KNOW)}
           activeOpacity={0.7}
