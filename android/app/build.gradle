@@ -19,9 +19,9 @@ android {
     buildToolsVersion = rootProject.ext.buildToolsVersion
     compileSdk = rootProject.ext.compileSdkVersion
 
-    namespace = "com.nglgold"
+    namespace = "com.nplsilver"
     defaultConfig {
-        applicationId = "com.nglgold"
+        applicationId = "com.nplsilver"
         minSdkVersion = rootProject.ext.minSdkVersion
         targetSdkVersion = rootProject.ext.targetSdkVersion
         versionCode = 1

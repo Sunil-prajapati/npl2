@@ -1,4 +1,4 @@
-package com.nglgold
+package com.nplsilver
 
 import android.app.Application
 import com.facebook.react.PackageList

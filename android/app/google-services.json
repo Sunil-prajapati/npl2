@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "844482776317",
-    "project_id": "npl-gold",
-    "storage_bucket": "npl-gold.firebasestorage.app"
+    "project_number": "710659368579",
+    "project_id": "npl2-39eee",
+    "storage_bucket": "npl2-39eee.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:844482776317:android:bb8beec6e14667631f4294",
+        "mobilesdk_app_id": "1:710659368579:android:6d9e214b10a44d11449db6",
         "android_client_info": {
-          "package_name": "com.nglgold"
+          "package_name": "com.nplsilver"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDnbnLlZyyViWfdUeKYnelMC0sz-3QGqec"
+          "current_key": "AIzaSyBsEomekddRErWrw2Kcg3yhhWLk2KKOpw4"
         }
       ],
       "services": {

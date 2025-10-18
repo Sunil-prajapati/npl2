@@ -1,4 +1,4 @@
-package com.nglgold
+package com.nplsilver
 import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

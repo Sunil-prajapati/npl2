@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nglgold" android:name="com.whatsapp" >
+    package="com.nplsilver" android:name="com.whatsapp" >
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
