@@ -5,4 +5,4 @@ export const API_ENDPOINTS = {
     TOKEN:'/token',
 }
 
-export const BASE_API_URL = 'https://nplgold.com/api/v1';
+export const BASE_API_URL = 'https://npl2gold.com/api/v1';
