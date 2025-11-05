@@ -32,7 +32,7 @@ const PrivacyPolicyScreen = () => {
           1. Introduction
         </Typography>
         <Typography variant="body1" color={colors.text} style={styles.paragraph}>
-          Welcome to NPL Gold. We respect your privacy and are committed to protecting your personal data. 
+          Welcome to NPL 2. We respect your privacy and are committed to protecting your personal data. 
           This privacy policy will inform you about how we look after your personal data when you visit our 
           application and tell you about your privacy rights and how the law protects you.
         </Typography>

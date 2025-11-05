@@ -47,17 +47,6 @@ const BottomTabNavigator = () => {
         >
           {title}
         </Typography>
-        <Typography 
-          variant="body2"
-          color={colors.primary}
-          style={{ 
-            fontSize: getResponsiveHeaderFontSize * 0.9,
-            lineHeight: getResponsiveHeaderFontSize * 0.9,
-            fontWeight: 'bold',
-          }}
-        >
-          Gold
-        </Typography>
       </View>
       <Image 
         source={require('../../assets/images/logo.jpg')}
