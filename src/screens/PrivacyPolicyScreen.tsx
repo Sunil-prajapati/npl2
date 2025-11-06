@@ -55,7 +55,7 @@ const PrivacyPolicyScreen = () => {
         </Typography>
         <Typography variant="body1" color={colors.text} style={styles.paragraph}>
           If you have any questions about this privacy policy or our privacy practices, please contact us at:
-          support@nplgold.com
+          support@npl2.com
         </Typography>
       </ScrollView>
     </ScreenWrapper>

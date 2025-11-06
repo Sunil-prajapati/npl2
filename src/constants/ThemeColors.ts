@@ -3,13 +3,13 @@ import { THEME_TYPE } from './ThemeTypes';
 export const THEME_COLORS = {
   [THEME_TYPE.GOLD]: {
   "light": "#E5F2FF", 
-  "primary": "#007AFF", 
-  "dark": "#004AAD", 
+  "primary": "#DA291C", 
+  "dark": "#A31B1B", 
   "text": "#212121", 
   "background": "#FFFFFF", 
   "headerBg": "#FFFFFF", 
   "tabBarBg": "#F0F0F0", 
-  "activeIcon": "#004AAD", 
+  "activeIcon": "#A31B1B", 
   "inactiveIcon": "#A0A0A0",
   "red": "#E53935" 
 },

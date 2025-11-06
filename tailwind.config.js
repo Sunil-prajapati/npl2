@@ -7,8 +7,8 @@ module.exports = {
       colors: {
         gold: {
           light: '#E5F2FF',
-          DEFAULT: '#007AFF',
-          dark: '#004AAD',
+          DEFAULT: '#DA291C',
+          dark: '#A31B1B',
         },
         silver: {
           light: '#F5F5F5',

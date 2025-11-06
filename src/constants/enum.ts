@@ -19,13 +19,13 @@ export const MOBILE_NUMBER = {
 };
 
 export const MESSAGES = {
-    WHATS_APP_TEXT:'जरुरी सूचना: * हैक किए गए एनपीएल से सावधान रहें! NPL Gold का नया संस्करण डाउनलोड करें! *',
+    WHATS_APP_TEXT:'जरुरी सूचना: * हैक किए गए एनपीएल से सावधान रहें! NPL 2 का नया संस्करण डाउनलोड करें! *',
     DISCOUNT_TEXT: `NPL KI GAME DISCOUNT KE SATH WHATSAPP PER KHELNA CHAHTE HAI TO YAHA CLICK KARE`,
     URDU_TEXT:`NEPAL KI NUMBER KI PREDECTION LENE KE LIYE YAHA CLICK KARE`,
     DATA_NOT_FOUND:'No Data Entry',
 }
 
 export const WHATS_APP_MESSAGES = {
-    WANT_TO_PLAY:'Hello! NPL Gold, Gmae khelna hai',
+    WANT_TO_PLAY:'Hello! NPL 2, Gmae khelna hai',
     WANT_TO_KNOW:'Hello! Nepla ki number ki predection'
 } 

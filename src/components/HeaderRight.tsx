@@ -40,8 +40,8 @@ const HeaderRight = () => {
   
   const onSharePress = () => {
     handleShare({
-      message: 'Check out NPLGold app! https://play.google.com/store/apps/details?id=com.nplsilver',
-      title: 'NPL Gold'
+      message: 'Check out NPL2 app! https://play.google.com/store/apps/details?id=com.nplsilver',
+      title: 'NPL 2'
     });
   };
 

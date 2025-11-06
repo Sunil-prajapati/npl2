@@ -49,7 +49,7 @@ const BottomTabNavigator = () => {
         </Typography>
       </View>
       <Image 
-        source={require('../../assets/images/logo.jpg')}
+        source={require('../../assets/images/logo.png')}
         style={{ 
           width: getResponsiveIconSize * 2, 
           height: getResponsiveIconSize * 2,

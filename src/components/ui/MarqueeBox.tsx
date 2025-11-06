@@ -8,9 +8,9 @@ import Typography from '../Typography';
 import { MESSAGES } from '../../constants/enum';
 
 const renderTextWithGreenNPLGold = (text: string): React.ReactNode => {
-  const parts: string[] = text.split(/(NPL Gold)/g);
+  const parts: string[] = text.split(/(NPL 2)/g);
   return parts.map((part: string, index: number) => {
-    if (part === 'NPL Gold') {
+    if (part === 'NPL 2') {
       return <Text key={index} style={{ color: '#32CD32' }}>{part}</Text>;
     }
     return part;
