@@ -11,7 +11,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<ThemeType>(THEME_TYPE.GOLD);
+  const [theme, setTheme] = useState<ThemeType>(THEME_TYPE.SILVER);
 
   const toggleTheme = () => {
     setTheme(prevTheme => prevTheme === THEME_TYPE.GOLD ? THEME_TYPE.SILVER : THEME_TYPE.GOLD);
