@@ -24,8 +24,8 @@ android {
         applicationId = "com.nplsilver"
         minSdkVersion = rootProject.ext.minSdkVersion
         targetSdkVersion = rootProject.ext.targetSdkVersion
-        versionCode = 3
-        versionName = "0.0.3"
+        versionCode = 5
+        versionName = "1.0.1"
         multiDexEnabled true
     }
 
@@ -70,13 +70,10 @@ configurations.all {
 
 dependencies {
     implementation("com.facebook.react:react-android")
+    implementation("com.google.android.material:material:1.12.0")
     implementation(project(':react-native-vector-icons'))
 
-    implementation(project(':react-native-splash-screen')) {
-        exclude group: 'com.android.support'
-        exclude module: 'appcompat-v7'
-        exclude module: 'support-v4'
-    }
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

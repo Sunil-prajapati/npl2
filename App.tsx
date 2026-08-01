@@ -7,7 +7,7 @@ import { enableScreens } from 'react-native-screens';
 import { ThemeProvider } from './src/context/ThemeContext';
 import "./global.css";
 import './gesture-handler';
-import SplashScreen from 'react-native-splash-screen'
+import RNBootSplash from 'react-native-bootsplash';
 import { useNotification } from './src/hooks/useNotification';
 import messaging from '@react-native-firebase/messaging';
 
@@ -17,7 +17,7 @@ if (__DEV__) {
 }
 const App: React.FC = () => {
   useEffect(() => {
-    SplashScreen.hide();
+    RNBootSplash.hide({ fade: true });
     
     // Foreground message handler
     const unsubscribe = messaging().onMessage(async remoteMessage => {

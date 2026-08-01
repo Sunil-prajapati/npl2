@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { SafeAreaView, View, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../context/ThemeContext';
 import { THEME_TYPE } from '../constants/ThemeTypes';
 import { THEME_COLORS } from '../constants/ThemeColors';
@@ -25,8 +26,9 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   return (
     <>
       <StatusBar 
+        translucent={true}
+        backgroundColor="transparent"
         barStyle={barStyle} 
-        backgroundColor={theme === THEME_TYPE.GOLD ? colors.light : colors.light} 
       />
       <SafeAreaView className={`flex-1 pb-4 ${bgColor}`}>
         <View className={` ${withPadding ? 'px-4' : ''}`}>
