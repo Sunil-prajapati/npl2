@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { View,Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import SharedCalendar from '../../components/SharedCalendar';
-import TableList from '../../components/ui/TableList';
+import TableList, { TableColumn } from '../../components/ui/TableList';
 import ErrorDisplay from '../../components/ui/ErrorDisplay';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../../components/Typography';
-import {TABLE_COLUMNS_COLOR } from '../../constants/enum';
+import { TABLE_COLUMNS_COLOR } from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import { isSameAsCurrentDate } from '../../helper/helper';
@@ -27,7 +27,7 @@ const HomeScreen = () => {
 
   const fetchData = () => {
     let date;
-    if(selectedDate && !isSameAsCurrentDate(selectedDate)){
+    if (selectedDate && !isSameAsCurrentDate(selectedDate)) {
       date = selectedDate;
     } else {
       date = null;
@@ -84,7 +84,7 @@ const HomeScreen = () => {
       <View className="items-center justify-start p-2">
         <SharedCalendar className="w-full" />
         {error ? (
-          <ErrorDisplay 
+          <ErrorDisplay
             error={error}
             onRetry={fetchData}
           />

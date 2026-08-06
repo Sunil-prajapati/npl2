@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import SharedCalendar from '../../components/SharedCalendar';
-import TableList from '../../components/ui/TableList';
+import TableList, { TableColumn } from '../../components/ui/TableList';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../../components/Typography';
