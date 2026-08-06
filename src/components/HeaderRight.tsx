@@ -8,7 +8,6 @@ import useShare from '../hooks/useShare';
 import useApi from '../hooks/useApi';
 import { API_ENDPOINTS } from '../constants/ApiEndPoints';
 import { useDateContext } from '../context/DateContext';
-import { isSameAsCurrentDate } from '../helper/helper';
 
 const HeaderRight = () => {
   const { theme } = useTheme();
@@ -24,14 +23,8 @@ const HeaderRight = () => {
   }, []);
   
   const handleRefresh = () => {
-    let date;
-    if(selectedDate && !isSameAsCurrentDate(selectedDate)){
-      date = selectedDate;
-    } else {
-      date = null;
-    }
-    sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: date }, false);
-    sendData(API_ENDPOINTS.GET_DOUBLE_DATA, { date: date }, false);
+    sendData(API_ENDPOINTS.GET_SINGLE_DATA, { date: selectedDate }, false);
+    sendData(API_ENDPOINTS.GET_DOUBLE_DATA, { date: selectedDate }, false);
   };
   
   const toggleOptions = () => {

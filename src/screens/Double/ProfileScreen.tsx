@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Dimensions } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import SharedCalendar from '../../components/SharedCalendar';
-import TableList from '../../components/ui/TableList';
+import TableList, { TableColumn } from '../../components/ui/TableList';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_COLORS } from '../../constants/ThemeColors';
 import Typography from '../../components/Typography';
@@ -10,7 +10,6 @@ import {TABLE_COLUMNS_COLOR} from '../../constants/enum';
 import useApi from '../../hooks/useApi';
 import { API_ENDPOINTS } from '../../constants/ApiEndPoints';
 import ErrorDisplay from '../../components/ui/ErrorDisplay';
-import { isSameAsCurrentDate } from '../../helper/helper';
 import { useDateContext } from '../../context/DateContext';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
@@ -25,13 +24,7 @@ const ProfileScreen = () => {
   const availableHeight = Dimensions.get('window').height - headerHeight - tabBarHeight;
 
   const fetchData = async () => {
-    let date;
-    if (selectedDate && !isSameAsCurrentDate(selectedDate)) {
-      date = selectedDate;
-    } else {
-      date = null;
-    }
-    await sendData(API_ENDPOINTS.GET_DOUBLE_DATA, { date }, false);
+    await sendData(API_ENDPOINTS.GET_DOUBLE_DATA, { date: selectedDate }, false);
   };
 
   useEffect(() => {
